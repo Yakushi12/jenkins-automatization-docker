@@ -1,4 +1,0 @@
-petclinic_path  : /tmp/petclinic.jar
-petclinic_url   : http://{{ nexus_url }}:8081/repository/maven-snapshots/org/springframework/samples/spring-petclinic/2.3.1a.BUILD-SNAPSHOT/spring-petclinic-2.3.1a.BUILD-20200729.114716-1.jar
-user            : admin
-password        : password

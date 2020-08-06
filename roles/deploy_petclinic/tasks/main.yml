@@ -2,7 +2,7 @@
 
   - name: download petclinic
     get_url:
-      url: '{{ petclinic_url }}'
+      url: '{{ petclinic_jar_url }}'
       dest: '{{ petclinic_path }}'
       username: '{{ user }}'
       password: '{{ password }}'

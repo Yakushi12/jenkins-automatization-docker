@@ -6,4 +6,4 @@ ansible_python_interpreter    : /usr/bin/python2.7
 ssh_key                       : ansible
 nexus_url                     : 34.107.32.31
 jenkins_url                   : 35.198.140.193
-web_url                       : 34.69.64.74
+petclinic_url                 : "35.225.238.206"

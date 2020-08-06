@@ -6,8 +6,8 @@
   tags: Web
   roles:
     - { role: pre_req }
-    # - { role: java_role }
-    # - { role: nginx_role }
-    # - { role: start_petclinic }
+    - { role: java_role }
+    - { role: nginx_role }
+    - { role: deploy_petclinic }
 
 ...
