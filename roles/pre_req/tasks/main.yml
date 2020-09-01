@@ -1,5 +1,11 @@
 ---
 
+  - name: Check Hostname
+    command: hostname
+    register: hname
+
+  - debug: msg="{{ hname.stdout }}"
+
   - name: Set httpd_can_network_connect flag on and keep it persistent across reboots
     seboolean:
       name: httpd_can_network_connect

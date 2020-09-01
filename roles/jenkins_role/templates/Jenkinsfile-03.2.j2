@@ -71,5 +71,17 @@ pipeline {
                 }
             }
         }
+
+        stage("downstream") {
+          steps {
+            build(job: 'packer_build')
+          }
+        }
+    }
+
+    post {
+      cleanup {
+        cleanWs()
+      }
     }
 }

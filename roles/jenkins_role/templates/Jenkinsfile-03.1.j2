@@ -1,0 +1,37 @@
+pipeline {
+
+    environment {
+        nexus_ip = "0.0.0.0"
+    }
+
+
+    agent {
+        label "master"
+    }
+
+    stages {
+      stage("clone code") {
+          steps {
+              script {
+                  git credentialsId: "{{ credentials }}",
+                  branch: "{{ targetBranch }}",
+                  url: "{{ gitUrl }}";
+                      }
+              }
+      }
+
+      stage('Create Packer AMI') {
+        steps {
+            dir('/var/jenkins_home/workspace/packer_build/Ansible'){
+                sh 'packer build -var \'path=pass\' pet_centos7.json'
+            }
+        }
+      }
+    }
+
+    post {
+      cleanup {
+        cleanWs()
+      }
+    }
+}

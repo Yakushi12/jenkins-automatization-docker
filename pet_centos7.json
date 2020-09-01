@@ -1,0 +1,31 @@
+{
+  "variables": {
+    "path": ""
+  },
+
+  "builders": [
+    {
+      "type"                 : "googlecompute",
+      "account_file"         : "/Users/dzakharchenko/WhoAmI/Study/packer/petclinic_centos7/account.json",
+      "project_id"           : "gd-gcp-internship-kha-koh",
+      "image_name"           : "petclinic-centos7-{{timestamp}}",
+      "zone"                 : "us-central1-a",
+      "subnetwork"           : "projects/gd-gcp-internship-kha-koh/regions/us-central1/subnetworks/dzakharchenko-subnet",
+      "source_image_family"  : "centos-7",
+      "disk_size"            : "20",
+      "machine_type"         : "g1-small",
+      "tags"                 : ["dz-fw-tcp"],
+      "ssh_username"         : "dzakharchenko"
+    }
+  ],
+
+  "provisioners": [
+    {
+      "type": "ansible",
+      "playbook_file": "/Users/dzakharchenko/WhoAmI/Study/GIT/Repos/jenkins-automatization-docker/playbooks/petclinic-playbook.yml",
+      "extra_arguments": [
+         "--vault-password-file={{user `path`}}"
+      ]
+    }
+  ]
+}

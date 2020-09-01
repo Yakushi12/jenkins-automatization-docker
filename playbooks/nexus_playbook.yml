@@ -1,0 +1,21 @@
+---
+
+- hosts: default
+  become: true
+  gather_facts: no
+  tags: nexus-install
+  roles:
+    # - { role: java_role }
+    - { role: nexus_role, tags: nexus-install }
+    - { role: nginx_role }
+  vars:
+    proxy_port: '{{ nexus_port }}'
+
+- hosts: Nexus
+  become: true
+  gather_facts: no
+  tags: nexus-configure
+  roles:
+    - { role: nexus_role, tags: nexus-configure }
+
+...

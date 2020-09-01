@@ -1,9 +1,12 @@
 # ansible_user                  : daniel_zaharchenk00
 ansible_user                  : dzakharchenko
-ansible_ssh_private_key_file  : /Users/dzakharchenko/.ssh/id_rsa
+ansible_ssh_private_key_file  : /Users/dzakharchenko/.ssh/google_compute_engine
 ansible_python_interpreter    : /usr/bin/python2.7
 
 ssh_key                       : ansible
-nexus_url                     : 34.107.32.31
-jenkins_url                   : 35.198.140.193
-petclinic_url                 : "35.225.238.206"
+nexus_url                     : 
+jenkins_url                   :
+petclinic_url                 :
+default_port                  : 80
+nexus_port                    : 8081
+jenkins_port                  : 8080

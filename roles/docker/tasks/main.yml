@@ -1,0 +1,55 @@
+---
+
+  - name: Check Hostname
+    command: hostname
+    register: hname
+
+  - debug: msg="{{ hname.stdout }}"
+
+  - name: yum Update
+    yum: update_cache=yes
+
+  - name: Downoload packages
+    yum:
+      name: ['yum-utils', 'device-mapper-persistent-data', 'lvm2', 'python2', 'python-pip', 'unzip']
+      state: latest
+
+  - name: Configuring docker-ce repo
+    get_url:
+      url: https://download.docker.com/linux/centos/docker-ce.repo
+      dest: /etc/yum.repos.d/docker-ce.repo
+      mode: 0644
+
+  - name: Upgrade pip
+    pip:
+      name: pip
+      state: latest
+
+  - name: Install docker-ce
+    yum:
+      name: docker-ce
+      state: present
+
+  - name: Install docker-py
+    pip:
+      name: docker-py
+      state: present
+
+  # - name: Start & enable docker
+  #   service:
+  #     name: docker
+  #     state: started
+  #     enabled: yes
+
+  - name: Start n enable docker
+    systemd:
+      name: docker
+      state: started
+      enabled: true
+
+  - name: Add user to docker group
+    user:
+      name: '{{ user }}'
+      groups: docker
+      append: true
+...

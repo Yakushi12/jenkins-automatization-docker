@@ -1,0 +1,34 @@
+{
+  "variables": {
+    "path": "",
+    "commit_id": ""
+  },
+
+  "builders": [
+    {
+      "type"                 : "googlecompute",
+      "account_file"         : "account.json",
+      "project_id"           : "gd-gcp-internship-kha-koh",
+      "image_name"           : "jenkins-centos7-{{user `commit_id`}}",
+      "image_family"         : "petclinic-intern",
+      "zone"                 : "us-central1-a",
+      "subnetwork"           : "projects/gd-gcp-internship-kha-koh/regions/us-central1/subnetworks/dzakharchenko-subnet",
+      "source_image_family"  : "centos-7",
+      "disk_size"            : "20",
+      "machine_type"         : "g1-small",
+      "tags"                 : ["dz-fw-tcp"],
+      "ssh_username"         : "dzakharchenko"
+    }
+  ],
+
+  "provisioners": [
+    {
+      "type"           : "ansible",
+      "playbook_file"  : "playbooks/jenkins_playbook.yml",
+      "extra_arguments": [
+         "--vault-password-file={{user `path`}}",
+         "--tags=jenkins-install"
+      ]
+    }
+  ]
+}

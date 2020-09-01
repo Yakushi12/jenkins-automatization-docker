@@ -1,5 +1,11 @@
 ---
 
+  - name: Check Hostname
+    command: hostname
+    register: hname
+
+  - debug: msg="{{ hname.stdout }}"
+
   - name: Add epel-release repo
     yum:
       name: epel-release
@@ -7,7 +13,7 @@
 
   - name: yum Update
     yum: update_cache=yes
-    
+
   - name: Install nginx
     yum:
       name: nginx

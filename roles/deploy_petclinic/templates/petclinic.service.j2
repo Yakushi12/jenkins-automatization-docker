@@ -5,7 +5,7 @@ After=network.target[Service]
 User={{ petclinic_user }}
 Type=simple
 [Service]
-ExecStart=/usr/bin/java -jar '{{ petclinic_path }}'
+ExecStart=/usr/bin/java -jar '{{ petclinic_path }}' '{{ petclinic_arguments }}'
 Restart=always
 StandardOutput=syslog
 StandardError=syslog

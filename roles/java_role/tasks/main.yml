@@ -1,5 +1,11 @@
 ---
 
+  - name: Check Hostname
+    command: hostname
+    register: hname
+
+  - debug: msg="{{ hname.stdout }}"
+  
   - name: yum Update
     yum: update_cache=yes
 
