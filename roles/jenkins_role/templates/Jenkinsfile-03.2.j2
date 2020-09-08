@@ -2,25 +2,43 @@ pipeline {
     agent {
         label "master"
     }
+
     tools {
-        maven "{{ mavenName }}"
+        maven "Maven"
     }
     environment {
         NEXUS_VERSION = "nexus3"
         NEXUS_PROTOCOL = "http"
-        NEXUS_URL = "{{ nexus_url }}:8081"
-        NEXUS_REPOSITORY = "{{ mavenRepo }}"
-        NEXUS_CREDENTIAL_ID = "{{ jenkinsKey_id }}"
+        NEXUS_URL = "${NEXUS_IP}:8081"
+        NEXUS_REPOSITORY = "maven-snapshots"
+        NEXUS_CREDENTIAL_ID = "nexus-cred"
+        CRED = credentials('gcp_service_acc_cred')
+        //NEXUS_IP = ""
     }
     stages {
+     /* stage("gcloud auth") {
+        steps {
+          script {
+            sh("gcloud auth activate-service-account --key-file=\"${CRED}\"")
+            sh("NEXUS_IP=`gcloud secrets versions access 1  --secret=\"nexus-ip\"`")
+          }
+        }
+      }*/
+        stage("get vars") {
+          steps {
+            script {
+              sh "NEXUS_IP=`gcloud secrets versions access 1  --secret=\"nexus-ip\"`"
+            }
+          }
+        }
         stage("clone code") {
             steps {
                 script {
-                    git credentialsId: "{{ credentials }}",
-                    branch: "{{ targetBranch }}",
-                    url: "{{ gitUrl }}";
-                        }
+                    git credentialsId: "GH_private_key",
+                    branch: "main",
+                    url: "git@github.com:Yakushi12/spring-petclinic.git";
                 }
+            }
         }
         stage("mvn build") {
             steps {
@@ -29,18 +47,15 @@ pipeline {
                 }
             }
         }
-        /*
-        stage("get vars") {
-        step {
-        script {
-        sh 'gcloud auth ...; NEXUS_URL = $(gcloud secrets versions access "version-id" --secret="secret-id")'
-        }
-        }
-        }
-        */
+
+
 
         stage("publish to nexus") {
             steps {
+                script {
+                  sh("gcloud auth activate-service-account --key-file=\"${CRED}\"")
+                  sh("NEXUS_IP=`gcloud secrets versions access 1  --secret=\"nexus-ip\"`")
+                }
                 script {
                     // Read POM xml file using 'readMavenPom' step , this step 'readMavenPom' is included in: https://plugins.jenkins.io/pipeline-utility-steps
                     pom = readMavenPom file: "pom.xml";
@@ -57,7 +72,7 @@ pipeline {
                         nexusArtifactUploader(
                             nexusVersion: NEXUS_VERSION,
                             protocol: NEXUS_PROTOCOL,
-                            nexusUrl: NEXUS_URL,
+                            nexusUrl: "${NEXUS_IP}:8081",
                             groupId: pom.groupId,
                             version: pom.version,
                             repository: NEXUS_REPOSITORY,
