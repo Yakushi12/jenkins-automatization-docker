@@ -24,8 +24,11 @@ import javaposse.jobdsl.dsl.DslFactory.*
 // }
 // """;
 def jobDSL="""
-pipelineJob('deploy') {
-  authenticationToken({{ auth_token }})
+pipelineJob('deploy_nexus') {
+  environmentVariables {
+      env('nexusIp', '0.0.0.0')
+  }
+  authenticationToken('{{ jenkins_token }}')
   definition {
     cps {
       script(readFileFromWorkspace('/usr/share/jenkins/ref/init.groovy.d/Jenkinsfile-03.2'))

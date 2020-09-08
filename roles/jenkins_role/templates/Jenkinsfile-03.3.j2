@@ -1,12 +1,4 @@
 pipeline {
-
-    environment {
-        nexus_ip = "0.0.0.0"
-        CRED = credentials('{{jenkinsFile_id}}')
-        PASS = credentials('{{valut_pass_id}}')
-    }
-
-
     agent {
         label "master"
     }
@@ -24,8 +16,8 @@ pipeline {
 
       stage('Create Packer AMI') {
         steps {
-            dir('/var/jenkins_home/workspace/packer_build/Ansible'){
-                sh 'packer build -var \'path=${PASS}\' -var \'acc_key=${CRED}\' pet_centos721.json'
+            dir('/var/jenkins_home/workspace/packer_build/Terraform'){
+                sh 'terraform init; terraform apply -target=module.MySqlDB -target=module.instance_group -target=module.LoadBalancer -auto-approve'
             }
         }
       }

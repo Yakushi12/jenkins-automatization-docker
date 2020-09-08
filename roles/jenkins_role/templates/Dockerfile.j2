@@ -1,4 +1,5 @@
 FROM jenkins/jenkins:2.235.2-lts-centos7
+USER root
 
 ENV JENKINS_USER {{ jenkins_user }}
 ENV JENKINS_PASS {{ jenkins_pass }}
@@ -12,11 +13,32 @@ RUN while read i ; \
       do /usr/local/bin/install-plugins.sh $i ; \
     done < /usr/share/jenkins/jenkins-plugins
 
-RUN /usr/local/bin/plugins.sh /usr/share/jenkins/jenkins-plugins
+#RUN /usr/local/bin/plugins.sh /usr/share/jenkins/jenkins-plugins
 
 COPY ./scripts/. /usr/share/jenkins/ref/init.groovy.d/
-COPY /usr/local/bin/packer /usr/local/bin/packer
+#COPY /usr/local/bin/packer /usr/local/bin/packer
 
-CMD ["yum","-y","install","ansible"]
+RUN yum -y update && yum -y install \
+    wget \
+    unzip \
+    epel-release \
+    python-pip \
+    ansible
+
+RUN wget --quiet https://releases.hashicorp.com/terraform/0.11.3/terraform_0.11.3_linux_amd64.zip \
+  && unzip terraform_0.11.3_linux_amd64.zip \
+  && mv terraform /usr/local/bin \
+  && rm terraform_0.11.3_linux_amd64.zip
+RUN wget https://releases.hashicorp.com/packer/1.6.1/packer_1.6.1_linux_amd64.zip
+RUN unzip packer_1.6.1_linux_amd64.zip -d /usr/local/bin
+#RUN mv packer /usr/local/bin
+ENV PATH=$PATH:/usr/local/bin/packer
+
+ENV SPRING_PROFILE="mysql"
+ENV DB_AUTO_UPDATE="auto"
+ENV DB_URL="jdbc:mysql://35.194.44.253:3306/petclinic?useSSL=false"
+ENV DB_USER="petclinic"
+ENV DB_PASS="petpass"
+
 # COPY ./jenkins.yaml /var/jenkins_home/casc_configs/
 VOLUME /var/jenkins_home

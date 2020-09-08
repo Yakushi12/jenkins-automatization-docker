@@ -1,0 +1,35 @@
+---
+
+  - name: download pet
+    maven_artifact:
+      group_id:  “{{ group_id }}”
+      artifact_id:  “{{ artifact_id }}”
+      extension: “{{ artifact_extension }}”
+      version:  “{{ build_version }}”
+      repository_url: “{{ repository_url }}”
+      username: “{{ nexus_user }}”
+      password: “{{ nexus_password }}”
+      dest: “{{ download_dest }}”
+      mode: “744”
+
+      #defprecated-----
+  - name: download petclinic
+    get_url:
+      url: '{{ petclinic_jar_url }}'
+      dest: '{{ petclinic_path }}'
+      username: '{{ user }}'
+      password: '{{ password }}'
+      #-----
+      
+  - name: Make petclinic service
+    template:
+      src: petclinic.service.j2
+      dest: /etc/systemd/system/petclinic.service
+
+  - name: start petclinic
+    systemd:
+      name: petclinic
+      state: started
+      enabled: yes
+
+...

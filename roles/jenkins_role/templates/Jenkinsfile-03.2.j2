@@ -29,6 +29,16 @@ pipeline {
                 }
             }
         }
+        /*
+        stage("get vars") {
+        step {
+        script {
+        sh 'gcloud auth ...; NEXUS_URL = $(gcloud secrets versions access "version-id" --secret="secret-id")'
+        }
+        }
+        }
+        */
+
         stage("publish to nexus") {
             steps {
                 script {

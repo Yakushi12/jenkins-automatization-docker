@@ -1,13 +1,12 @@
 {
   "variables": {
-    "path": "",
-    "account_file" : ""
+    "path": ""
   },
 
   "builders": [
     {
       "type"                 : "googlecompute",
-      "account_file"         : "{{user `account_file`}}",
+      "account_file"         : "account.json",
       "project_id"           : "gd-gcp-internship-kha-koh",
       "image_name"           : "petclinic-centos7-{{timestamp}}",
       "zone"                 : "us-central1-a",
@@ -23,7 +22,7 @@
   "provisioners": [
     {
       "type": "ansible",
-      "playbook_file": "/Users/dzakharchenko/WhoAmI/Study/GIT/Repos/jenkins-automatization-docker/playbooks/petclinic-playbook.yml",
+      "playbook_file": "playbooks/petclinic-playbook.yml",
       "extra_arguments": [
          "--vault-password-file={{user `path`}}"
       ]

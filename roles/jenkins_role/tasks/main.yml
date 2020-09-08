@@ -40,21 +40,30 @@
     file:
       path: ./Docker/scripts/
       state: directory
+      owner: '{{ ansible_user }}'
+      group: '{{ ansible_user }}'
+      directory_mode: yes
     tags: jenkins-configure
 
   - name: Copy jenkins plugins file
     copy:
-      src: jenkins-plugins
-      dest: ./Docker/jenkins-plugins
-      owner: root
-      group: root
-      mode: '0644'
+      src: "{{ item.src }}"
+      dest: "{{ item.dest }}"
+      owner: '{{ ansible_user }}'
+      group: '{{ ansible_user }}'
+      mode: '0744'
+    with_items:
+      - { src: 'jenkins-plugins', dest: './Docker/jenkins-plugins' }
+    #  - { src: '/Users/dzakharchenko/WhoAmI/gcp/service_acc_key.json', dest: '/home/{{ ansible_user }}/account.json' }
+
     tags: jenkins-configure
 
   - name: Set templates to Docker directory
     template:
       src: "{{ item.src }}"
       dest: "{{ item.dest }}"
+      owner: '{{ ansible_user }}'
+      group: '{{ ansible_user }}'
     with_items:
       - { src: 'Dockerfile.j2', dest: './Docker/Dockerfile' }
       - { src: '00-basic-security.groovy.j2', dest: './Docker/scripts/00-basic-security.groovy' }
@@ -65,6 +74,8 @@
       - { src: '04-maven.groovy.j2', dest: './Docker/scripts/04-maven.groovy' }
       - { src: 'Jenkinsfile-03.1.j2', dest: './Docker/scripts/Jenkinsfile-03.1' }
       - { src: 'Jenkinsfile-03.2.j2', dest: './Docker/scripts/Jenkinsfile-03.2' }
+      - { src: 'Jenkinsfile-03.3.j2', dest: './Docker/scripts/Jenkinsfile-03.3' }
+      - { src: '03.3-terraform-job.groovy.j2', dest: './Docker/scripts/03.3-terraform-job.groovy' }
     tags: jenkins-configure
 
   # - name: pull an image
@@ -94,16 +105,18 @@
     file:
       path: /home/{{ ansible_user }}/{{ docker_volume }}
       state: directory
-      mode: "0755"
+      mode: "1755"
+      directory_mode: yes
       owner: '{{ ansible_user }}'
       group: '{{ ansible_user }}'
       recurse: yes
+    tags: jenkins-configure
 
   - name: Build image n run container
     tags: jenkins-configure
     shell: |
       docker build -t {{ docker_image_name }} ./Docker/.
-      docker run -d --name {{ docker_container_name }} -p 0.0.0.0:8080:8080 -p 0.0.0.0:50000:50000 -v /home/{{ ansible_user }}/{{ docker_volume }}:/var/{{ docker_volume }} {{ docker_image_name }}
+      docker run -d --privileged --name {{ docker_container_name }} -p 0.0.0.0:8080:8080 -p 0.0.0.0:50000:50000 -v /home/{{ ansible_user }}/{{ docker_volume }}:/var/{{ docker_volume }} {{ docker_image_name }}
 # docker pull yakushi12/jenkins-docker
 # docker run -d --restart unless-stopped --name jenkins -p 0.0.0.0:8080:8080 -p 0.0.0.0:50000:50000 -v /usr/jenkins_home:/var/jenkins_home yakushi12/jenkins-docker
   # - name: Build Docker image
@@ -121,12 +134,21 @@
   - name: Provision Ansible for packer
     copy:
       src: Ansible
-      dest: /home/dzakharchenko/jenkins_home2/workspace/packer_build
+      dest: /home/{{ ansible_user }}/{{ docker_volume }}/workspace/packer_build
       directory_mode: yes
       mode: '1755'
       owner: '{{ ansible_user }}'
       group: '{{ ansible_user }}'
     tags: jenkins-configure
 
-  - command: 'sudo docker cp /usr/local/bin/packer jenkins:/usr/local/bin/packer'
+  - name: Provision account.json for packer
+    copy:
+      src: /Users/dzakharchenko/WhoAmI/gcp/service_acc_key.json
+      dest: /home/dzakharchenko/jenkins_home/workspace/packer_build/Ansible/account.json
+      mode: '0755'
+      owner: '{{ ansible_user }}'
+      group: '{{ ansible_user }}'
+    tags: jenkins-configure
+
+#  - command: 'sudo docker cp /usr/local/bin/packer jenkins:/usr/local/bin/packer'
 ...
