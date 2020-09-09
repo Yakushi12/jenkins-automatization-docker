@@ -21,6 +21,43 @@ pipeline {
                       }
               }
       }
+      stages {
+        stage("clone code") {
+            steps {
+                script {
+                    git credentialsId: "GH_private_key",
+                    branch: "nginx",
+                    url: "git@github.com:Yakushi12/jenkins-automatization-docker.git";
+                        }
+                }
+        }
+  /*    stage('Create vars')
+  {
+      steps {
+          dir(./roles/jenkins_role/files/Ansible/){
+
+          script{
+              sh "mkdir vars; touch vars/main.yml;
+              nexusIp = gcloud get var nexus_ip
+              mysql_ip =
+              mysql_user =
+              mysql_pass =
+
+              $ cat <<EOF > vars/main.yml
+
+                  nexus_ip : ${nexusIp}
+                  petclinic_url : ${petIp}
+              EOF
+              echo "nexus_ip : ${nexusIp}" >> vars/main.yml
+
+
+              "
+          }
+          }
+      }
+  }
+
+
 
       stage('Create Packer AMI') {
         steps {

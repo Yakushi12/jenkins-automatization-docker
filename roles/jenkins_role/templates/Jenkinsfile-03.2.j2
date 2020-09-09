@@ -13,21 +13,23 @@ pipeline {
         NEXUS_REPOSITORY = "maven-snapshots"
         NEXUS_CREDENTIAL_ID = "nexus-cred"
         CRED = credentials('gcp_service_acc_cred')
-        //NEXUS_IP = ""
+
     }
     stages {
-     /* stage("gcloud auth") {
+      stage("gcloud auth") {
         steps {
           script {
             sh("gcloud auth activate-service-account --key-file=\"${CRED}\"")
-            sh("NEXUS_IP=`gcloud secrets versions access 1  --secret=\"nexus-ip\"`")
           }
         }
-      }*/
+      }
         stage("get vars") {
           steps {
             script {
-              sh "NEXUS_IP=`gcloud secrets versions access 1  --secret=\"nexus-ip\"`"
+              env.NEXUS_IP = sh (
+            script: 'gcloud secrets versions access 1  --secret=\"nexus-ip\"',
+            returnStdout: true
+        ).trim()
             }
           }
         }
@@ -52,10 +54,7 @@ pipeline {
 
         stage("publish to nexus") {
             steps {
-                script {
-                  sh("gcloud auth activate-service-account --key-file=\"${CRED}\"")
-                  sh("NEXUS_IP=`gcloud secrets versions access 1  --secret=\"nexus-ip\"`")
-                }
+
                 script {
                     // Read POM xml file using 'readMavenPom' step , this step 'readMavenPom' is included in: https://plugins.jenkins.io/pipeline-utility-steps
                     pom = readMavenPom file: "pom.xml";
@@ -72,7 +71,7 @@ pipeline {
                         nexusArtifactUploader(
                             nexusVersion: NEXUS_VERSION,
                             protocol: NEXUS_PROTOCOL,
-                            nexusUrl: "${NEXUS_IP}:8081",
+                            nexusUrl: NEXUS_URL,
                             groupId: pom.groupId,
                             version: pom.version,
                             repository: NEXUS_REPOSITORY,

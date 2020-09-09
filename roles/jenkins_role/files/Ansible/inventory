@@ -1,2 +1,0 @@
-[Web]
-Server ansible_host="{{ petclinic_url }}"
