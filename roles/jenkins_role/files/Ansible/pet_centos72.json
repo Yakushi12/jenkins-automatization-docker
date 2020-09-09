@@ -1,6 +1,10 @@
 {
   "variables": {
     "path": "",
+    "mysql_user": "",
+    "mysql_pass": "",
+    "mysql_ip": "",
+    "nexus_url": "",
     "acc_key": ""
   },
 
@@ -25,7 +29,8 @@
       "type": "ansible",
       "playbook_file": "playbooks/petclinic-playbook.yml",
       "extra_arguments": [
-         "--vault-password-file={{user `path`}}"
+         "--vault-password-file={{user `path`}}",
+         "--extra-vars", "mysql_user={{user `mysql_user`}} mysql_pass={{user `mysql_pass`}} mysql_ip={{user `mysql_ip`}} nexus_url={{user `nexus_url`}}"
       ]
     }
   ]

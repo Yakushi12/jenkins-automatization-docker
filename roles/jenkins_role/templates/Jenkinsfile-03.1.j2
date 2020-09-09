@@ -62,7 +62,7 @@ pipeline {
       stage('Create Packer AMI') {
         steps {
             dir('/var/jenkins_home/workspace/packer_build/Ansible'){
-                sh 'packer build -var \'path=${PASS}\' -var \'acc_key=${CRED}\' pet_centos721.json'
+                sh 'packer build -var \'path=${PASS}\' -var \'acc_key=${CRED}\' pet_centos72.json'
             }
         }
       }
