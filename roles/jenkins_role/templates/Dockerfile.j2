@@ -31,7 +31,9 @@ RUN wget --quiet https://releases.hashicorp.com/terraform/0.11.3/terraform_0.11.
   && rm terraform_0.11.3_linux_amd64.zip
 RUN wget https://releases.hashicorp.com/packer/1.6.1/packer_1.6.1_linux_amd64.zip
 RUN unzip packer_1.6.1_linux_amd64.zip -d /usr/local/bin
-#RUN mv packer /usr/local/bin
+
+CMD ["yum -y install ansible"]
+
 ENV PATH=$PATH:/usr/local/bin/packer
 
 ENV SPRING_PROFILE="mysql"

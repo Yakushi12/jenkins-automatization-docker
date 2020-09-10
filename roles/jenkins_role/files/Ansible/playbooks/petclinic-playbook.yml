@@ -1,7 +1,9 @@
 ---
 
 - hosts: default
-  become: true
+  become: yes
+  become_method: sudo
+  # become_user: root
   gather_facts: no
   tags: Web
   roles:
@@ -9,5 +11,5 @@
     - { role: java_role }
     - { role: nginx_role }
     - { role: deploy_petclinic }
-    
+
 ...

@@ -10,3 +10,4 @@ petclinic_url                 :
 default_port                  : 80
 nexus_port                    : 8081
 jenkins_port                  : 8080
+version_id                    : "latest"

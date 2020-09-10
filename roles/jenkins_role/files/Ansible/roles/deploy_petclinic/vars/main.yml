@@ -20,4 +20,8 @@ artifact_id        : spring-petclinic
 artifact_extension : jar
 build_version      : 2.3.1b.BUILD-SNAPSHOT
 repository_url     : http://{{ nexus_url }}:{{ nexus_port }}/{{ repo }}/
-version_id : '1'
+version_id : 'latest'
+mysql_user : 'petclinic'
+mysql_port : '3306'
+mysql_db_name : 'petclinic'
+profile : 'mysql'

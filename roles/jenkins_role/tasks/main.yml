@@ -117,6 +117,19 @@
     shell: |
       docker build -t {{ docker_image_name }} ./Docker/.
       docker run -d --privileged --name {{ docker_container_name }} -p 0.0.0.0:8080:8080 -p 0.0.0.0:50000:50000 -v /home/{{ ansible_user }}/{{ docker_volume }}:/var/{{ docker_volume }} {{ docker_image_name }}
+
+
+  - name: Build Jenkins job
+    tags: build-job
+    uri:
+      url: "http://{{ jenkins_url }}:{{ jenkins_port }}/buildByToken/build?job={{ jobName }}&token={{ jenkins_token }}"
+        # "http://{{ jenkins.host }}/job/{{ jenkins.job }}/build?token={{ jenkins.token }}"
+      method: POST
+      # user: "{{ jenkins.user }}"
+      # password: "{{ jenkins.password }}"
+      force_basic_auth: yes
+      status_code: 201
+
 # docker pull yakushi12/jenkins-docker
 # docker run -d --restart unless-stopped --name jenkins -p 0.0.0.0:8080:8080 -p 0.0.0.0:50000:50000 -v /usr/jenkins_home:/var/jenkins_home yakushi12/jenkins-docker
   # - name: Build Docker image
@@ -131,24 +144,24 @@
   #     source: build
   #
 
-  - name: Provision Ansible for packer
-    copy:
-      src: Ansible
-      dest: /home/{{ ansible_user }}/{{ docker_volume }}/workspace/packer_build
-      directory_mode: yes
-      mode: '1755'
-      owner: '{{ ansible_user }}'
-      group: '{{ ansible_user }}'
-    tags: jenkins-configure
-
-  - name: Provision account.json for packer
-    copy:
-      src: /Users/dzakharchenko/WhoAmI/gcp/service_acc_key.json
-      dest: /home/dzakharchenko/jenkins_home/workspace/packer_build/Ansible/account.json
-      mode: '0755'
-      owner: '{{ ansible_user }}'
-      group: '{{ ansible_user }}'
-    tags: jenkins-configure
+  # - name: Provision Ansible for packer
+  #   copy:
+  #     src: Ansible
+  #     dest: /home/{{ ansible_user }}/{{ docker_volume }}/workspace/packer_build
+  #     directory_mode: yes
+  #     mode: '1755'
+  #     owner: '{{ ansible_user }}'
+  #     group: '{{ ansible_user }}'
+  #   tags: jenkins-configure
+  #
+  # - name: Provision account.json for packer
+  #   copy:
+  #     src: /Users/dzakharchenko/WhoAmI/gcp/service_acc_key.json
+  #     dest: /home/dzakharchenko/jenkins_home/workspace/packer_build/Ansible/account.json
+  #     mode: '0755'
+  #     owner: '{{ ansible_user }}'
+  #     group: '{{ ansible_user }}'
+  #   tags: jenkins-configure
 
 #  - command: 'sudo docker cp /usr/local/bin/packer jenkins:/usr/local/bin/packer'
 ...

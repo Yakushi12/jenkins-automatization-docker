@@ -1,5 +1,20 @@
 ---
 
+  - name: install python libs
+    yum:
+      name: ['libxml2', 'libxml2-devel', 'libxslt', 'libxslt-devel', 'python2', 'python-pip']
+      state: installed
+
+  - name: Upgrade pip
+    pip:
+      name: pip
+      state: latest
+
+  - name: Install lxml
+    pip:
+      name: lxml
+      state: present
+
   - name: download pet
     maven_artifact:
       group_id:  '{{ group_id }}'

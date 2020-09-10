@@ -12,7 +12,7 @@ gitUrl                            : git@github.com:Yakushi12/spring-petclinic.gi
 credentials                       : GH_private_key
 branch                            : '*/main'
 targetBranch                      : main
-jobName                           : deploy_to_nexus
+jobName                           : deploy_nexus
 mavenVersion                      : 3.6.3
 mavenName                         : Maven
 mavenRepo                         : maven-snapshots
@@ -25,11 +25,11 @@ jenkins_token : 11517e4ae0308056e4ea15d6d179f0f7f9
 docker_volume                     : jenkins_home
 docker_image_name                 : jenkins-docker
 docker_container_name             : jenkins
-jenkinsFile_id : 'gcp_service_acc_cred'
-jenkinsFile_description : 'Service account json Key'
-jenkinsFile_name : 'account.json'
-valut_pass_id : 'pass'
-valut_pass_description : 'password for ansible vault'
-valut_pass_name : 'pass'
-service_acc_file : " {{ lookup(\"file\", \"/Users/dzakharchenko/WhoAmI/gcp/service_acc_key.json\") }}"
-valut_pass       : "{{ lookup('file', '/Users/dzakharchenko/vpass') }}"
+jenkinsFile_id                    : 'gcp_service_acc_cred'
+jenkinsFile_description           : 'Service account json Key'
+jenkinsFile_name                  : 'account.json'
+valut_pass_id                     : 'pass'
+valut_pass_description            : 'password for ansible vault'
+valut_pass_name                   : 'pass'
+service_acc_file                  : "{{ lookup(\"file\", \"/Users/dzakharchenko/WhoAmI/gcp/service_acc_key.json\") }}"
+valut_pass                        : "{{ lookup('file', '/Users/dzakharchenko/vpass') }}"

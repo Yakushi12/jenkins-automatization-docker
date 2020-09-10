@@ -2,8 +2,8 @@ pipeline {
 
     environment {
         nexus_ip = "0.0.0.0"
-        CRED = credentials('{{jenkinsFile_id}}')
-        PASS = credentials('{{valut_pass_id}}')
+        CRED = credentials('gcp_service_acc_cred')
+        PASS = credentials('pass')
     }
 
 
@@ -15,62 +15,39 @@ pipeline {
       stage("clone code") {
           steps {
               script {
-                  git credentialsId: "{{ credentials }}",
-                  branch: "{{ targetBranch }}",
-                  url: "{{ gitUrl }}";
-                      }
-              }
-      }
-      stages {
-        stage("clone code") {
-            steps {
-                script {
-                    git credentialsId: "GH_private_key",
+                  git credentialsId: "GH_private_key",
                     branch: "nginx",
                     url: "git@github.com:Yakushi12/jenkins-automatization-docker.git";
-                        }
-                }
-        }
-  /*    stage('Create vars')
-  {
-      steps {
-          dir(./roles/jenkins_role/files/Ansible/){
-
-          script{
-              sh "mkdir vars; touch vars/main.yml;
-              nexusIp = gcloud get var nexus_ip
-              mysql_ip =
-              mysql_user =
-              mysql_pass =
-
-              $ cat <<EOF > vars/main.yml
-
-                  nexus_ip : ${nexusIp}
-                  petclinic_url : ${petIp}
-              EOF
-              echo "nexus_ip : ${nexusIp}" >> vars/main.yml
-
-
-              "
-          }
+                    }
+              }
+      }
+      stage('1') {
+          steps {
+              sh "cat ${CRED}"
           }
       }
-  }
-
-
 
       stage('Create Packer AMI') {
         steps {
-            dir('/var/jenkins_home/workspace/packer_build/Ansible'){
-                sh 'packer build -var \'path=${PASS}\' -var \'acc_key=${CRED}\' pet_centos72.json'
+          dir('./roles/jenkins_role/files/Ansible/'){
+                sh """
+                packer build \
+                -var \'path=${PASS}\' \
+                -var \'acc_key=${CRED}\' \
+                -var \'mysql_pass=petpass\' \
+                -var \'mysql_ip=35.194.44.253\' \
+                -var \'nexus_url=34.122.203.53\' \
+                pet_centos72.json
+                """
             }
         }
       }
+
     }
 
-    post {
+   /* post {
       cleanup {
         cleanWs()
       }
-    }
+    }*/
 }

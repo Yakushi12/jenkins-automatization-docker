@@ -27,7 +27,7 @@ pipeline {
           steps {
             script {
               env.NEXUS_IP = sh (
-            script: 'gcloud secrets versions access 1  --secret=\"nexus-ip\"',
+            script: 'gcloud secrets versions access "{{ version_id }}" --secret="nexus_ip_dz"\"',
             returnStdout: true
         ).trim()
             }
