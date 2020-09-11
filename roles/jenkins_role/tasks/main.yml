@@ -101,16 +101,16 @@
   #     - 50000
   #   tags: jenkins-configure
 
-  - name: Create Jenkins-home dir
-    file:
-      path: /home/{{ ansible_user }}/{{ docker_volume }}
-      state: directory
-      mode: "1755"
-      directory_mode: yes
-      owner: '{{ ansible_user }}'
-      group: '{{ ansible_user }}'
-      recurse: yes
-    tags: jenkins-configure
+  # - name: Create Jenkins-home dir
+  #   file:
+  #     path: /home/{{ ansible_user }}/{{ docker_volume }}
+  #     state: directory
+  #     mode: "1755"
+  #     directory_mode: yes
+  #     owner: '{{ ansible_user }}'
+  #     group: '{{ ansible_user }}'
+  #     recurse: yes
+  #   tags: jenkins-configure
 
   - name: Build image n run container
     tags: jenkins-configure

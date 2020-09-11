@@ -26,21 +26,16 @@ RUN yum -y update && yum -y install \
     ansible
 
 RUN wget --quiet https://releases.hashicorp.com/terraform/0.11.3/terraform_0.11.3_linux_amd64.zip \
-  && unzip terraform_0.11.3_linux_amd64.zip \
-  && mv terraform /usr/local/bin \
+  && unzip terraform_0.11.3_linux_amd64.zip -d /usr/local/bin \
   && rm terraform_0.11.3_linux_amd64.zip
-RUN wget https://releases.hashicorp.com/packer/1.6.1/packer_1.6.1_linux_amd64.zip
-RUN unzip packer_1.6.1_linux_amd64.zip -d /usr/local/bin
 
-CMD ["yum -y install ansible"]
+RUN wget https://releases.hashicorp.com/packer/1.6.1/packer_1.6.1_linux_amd64.zip \
+  && unzip packer_1.6.1_linux_amd64.zip -d /usr/local/bin \
+  && rm packer_1.6.1_linux_amd64.zip
+
+RUN yum -y install ansible
 
 ENV PATH=$PATH:/usr/local/bin/packer
 
-ENV SPRING_PROFILE="mysql"
-ENV DB_AUTO_UPDATE="auto"
-ENV DB_URL="jdbc:mysql://35.194.44.253:3306/petclinic?useSSL=false"
-ENV DB_USER="petclinic"
-ENV DB_PASS="petpass"
-
 # COPY ./jenkins.yaml /var/jenkins_home/casc_configs/
-VOLUME /var/jenkins_home
+VOLUME /var/{{ docker_volume }}
