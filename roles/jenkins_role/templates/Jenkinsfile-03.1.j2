@@ -1,53 +1,69 @@
 pipeline {
 
-    environment {
-        nexus_ip = "0.0.0.0"
-        CRED = credentials('gcp_service_acc_cred')
-        PASS = credentials('pass')
-    }
+  environment {
+      CRED = credentials('gcp_service_acc_cred')
+      PASS = credentials('pass')
+  }
 
+  agent {
+      label "master"
+  }
 
-    agent {
-        label "master"
-    }
-
-    stages {
-      stage("clone code") {
-          steps {
-              script {
-                  git credentialsId: "GH_private_key",
-                    branch: "nginx",
-                    url: "git@github.com:Yakushi12/jenkins-automatization-docker.git";
-                    }
-              }
-      }
-      stage('1') {
-          steps {
-              sh "cat ${CRED}"
-          }
-      }
-
-      stage('Create Packer AMI') {
-        steps {
-          dir('./roles/jenkins_role/files/Ansible/'){
-                sh """
-                packer build \
-                -var \'path=${PASS}\' \
-                -var \'acc_key=${CRED}\' \
-                -var \'mysql_pass=petpass\' \
-                -var \'mysql_ip=35.194.44.253\' \
-                -var \'nexus_url=34.122.203.53\' \
-                pet_centos72.json
-                """
-            }
+  stages {
+    stage("gcloud auth") {
+      steps {
+        script {
+          sh("gcloud auth activate-service-account --key-file=\"${CRED}\"")
         }
       }
-
     }
-
-   /* post {
-      cleanup {
-        cleanWs()
+    stage("get vars") {
+      steps {
+        script {
+          env.NEXUS_IP = sh (
+            script: 'gcloud secrets versions access "{{ version_id }}" --secret="nexus_ip_dz"\"',
+            returnStdout: true
+          ).trim()
+          // env.MY_SQL_IP = sh (
+          //   script: 'gcloud secrets versions access "{{ version_id }}" --secret="mysql_ip_dz"\"',
+          //   returnStdout: true
+          // ).trim()
+          // env.MY_SQL_PASS = sh (
+          //   script: 'gcloud secrets versions access "{{ version_id }}" --secret="mysql_pass_dz"\"',
+          //   returnStdout: true
+          // ).trim()
+        }
       }
-    }*/
+    }
+    stage("clone code") {
+      steps {
+        script {
+          git credentialsId: "GH_private_key",
+          branch: "nginx",
+          url: "git@github.com:Yakushi12/jenkins-automatization-docker.git";
+        }
+      }
+    }
+    stage('Create Packer AMI') {
+      steps {
+        dir('./roles/jenkins_role/files/Ansible/'){
+          sh """
+          packer build \
+          -var \'path=${PASS}\' \
+          -var \'acc_key=${CRED}\' \
+          // -var \'mysql_pass=petpass\' \
+          // -var \'mysql_ip=35.194.44.253\' \
+          -var \'nexus_url=${NEXUS_IP}\' \
+          pet_centos72.json
+          """
+        }
+      }
+    }
+  }
+
+  post {
+    cleanup {
+      cleanWs()
+    }
+  }
 }

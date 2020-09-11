@@ -1,10 +1,6 @@
 {
   "variables": {
     "path": "",
-    "mysql_user": "",
-    "mysql_pass": "",
-    "mysql_ip": "",
-    "nexus_url": "",
     "acc_key": ""
   },
 
@@ -31,7 +27,7 @@
       "user": "dzakharchenko",
       "extra_arguments": [
          "--vault-password-file={{user `path`}}",
-         "--extra-vars", "mysql_pass={{user `mysql_pass`}} mysql_ip={{user `mysql_ip`}} nexus_url={{user `nexus_url`}}"
+         "--extra-vars", "nexus_url={{user `nexus_url`}}"
       ]
     }
   ]

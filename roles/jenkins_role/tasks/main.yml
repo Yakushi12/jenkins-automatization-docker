@@ -118,6 +118,14 @@
       docker build -t {{ docker_image_name }} ./Docker/.
       docker run -d --privileged --name {{ docker_container_name }} -p 0.0.0.0:8080:8080 -p 0.0.0.0:50000:50000 -v /home/{{ ansible_user }}/{{ docker_volume }}:/var/{{ docker_volume }} {{ docker_image_name }}
 
+  - name: Change Jenkins-home ownership, group and permissions
+    file:
+      path: /home/{{ ansible_user }}/{{ docker_volume }}
+      mode: "1755"
+      owner: '{{ ansible_user }}'
+      group: '{{ ansible_user }}'
+      recurse: yes
+    tags: jenkins-configure
 
   - name: Build Jenkins job
     tags: build-job

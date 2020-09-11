@@ -1,111 +1,107 @@
 pipeline {
-    agent {
-        label "master"
-    }
+  agent {
+      label "master"
+  }
 
-    tools {
-        maven "Maven"
-    }
-    environment {
-        NEXUS_VERSION = "nexus3"
-        NEXUS_PROTOCOL = "http"
-        NEXUS_URL = "${NEXUS_IP}:8081"
-        NEXUS_REPOSITORY = "maven-snapshots"
-        NEXUS_CREDENTIAL_ID = "nexus-cred"
-        CRED = credentials('gcp_service_acc_cred')
+  tools {
+      maven "Maven"
+  }
 
-    }
-    stages {
-      stage("gcloud auth") {
-        steps {
-          script {
-            sh("gcloud auth activate-service-account --key-file=\"${CRED}\"")
-          }
+  environment {
+    NEXUS_VERSION = "nexus3"
+    NEXUS_PROTOCOL = "http"
+    NEXUS_URL = "${NEXUS_IP}:8081"
+    NEXUS_REPOSITORY = "maven-snapshots"
+    NEXUS_CREDENTIAL_ID = "nexus-cred"
+    CRED = credentials('gcp_service_acc_cred')
+  }
+
+  stages {
+    stage("gcloud auth") {
+      steps {
+        script {
+          sh("gcloud auth activate-service-account --key-file=\"${CRED}\"")
         }
       }
-        stage("get vars") {
-          steps {
-            script {
-              env.NEXUS_IP = sh (
+    }
+    stage("get vars") {
+      steps {
+        script {
+          env.NEXUS_IP = sh (
             script: 'gcloud secrets versions access "{{ version_id }}" --secret="nexus_ip_dz"\"',
             returnStdout: true
-        ).trim()
-            }
-          }
+          ).trim()
         }
-        stage("clone code") {
-            steps {
-                script {
-                    git credentialsId: "GH_private_key",
-                    branch: "main",
-                    url: "git@github.com:Yakushi12/spring-petclinic.git";
-                }
-            }
-        }
-        stage("mvn build") {
-            steps {
-                script {
-                    sh "mvn package -DskipTests=true"
-                }
-            }
-        }
-
-
-
-        stage("publish to nexus") {
-            steps {
-
-                script {
-                    // Read POM xml file using 'readMavenPom' step , this step 'readMavenPom' is included in: https://plugins.jenkins.io/pipeline-utility-steps
-                    pom = readMavenPom file: "pom.xml";
-                    // Find built artifact under target folder
-                    filesByGlob = findFiles(glob: "target/*.${pom.packaging}");
-                    // Print some info from the artifact found
-                    echo "${filesByGlob[0].name} ${filesByGlob[0].path} ${filesByGlob[0].directory} ${filesByGlob[0].length} ${filesByGlob[0].lastModified}"
-                    // Extract the path from the File found
-                    artifactPath = filesByGlob[0].path;
-                    // Assign to a boolean response verifying If the artifact name exists
-                    artifactExists = fileExists artifactPath;
-                    if(artifactExists) {
-                        echo "*** File: ${artifactPath}, group: ${pom.groupId}, packaging: ${pom.packaging}, version ${pom.version}";
-                        nexusArtifactUploader(
-                            nexusVersion: NEXUS_VERSION,
-                            protocol: NEXUS_PROTOCOL,
-                            nexusUrl: NEXUS_URL,
-                            groupId: pom.groupId,
-                            version: pom.version,
-                            repository: NEXUS_REPOSITORY,
-                            credentialsId: NEXUS_CREDENTIAL_ID,
-                            artifacts: [
-                                // Artifact generated such as .jar, .ear and .war files.
-                                [artifactId: pom.artifactId,
-                                classifier: '',
-                                file: artifactPath,
-                                type: pom.packaging],
-                                // Lets upload the pom.xml file for additional information for Transitive dependencies
-                                [artifactId: pom.artifactId,
-                                classifier: '',
-                                file: "pom.xml",
-                                type: "pom"]
-                            ]
-                        );
-                    } else {
-                        error "*** File: ${artifactPath}, could not be found";
-                    }
-                }
-            }
-        }
-
-        stage("downstream") {
-          steps {
-            build(job: 'packer_build')
-          }
-        }
-    }
-
-    post {
-      cleanup {
-        cleanWs()
       }
     }
+    stage("clone code") {
+      steps {
+        script {
+          git credentialsId: "GH_private_key",
+          branch: "main",
+          url: "git@github.com:Yakushi12/spring-petclinic.git";
+        }
+      }
+    }
+    stage("mvn build") {
+      steps {
+        script {
+          sh "mvn package -DskipTests=true"
+        }
+      }
+    }
+    stage("publish to nexus") {
+      steps {
+        script {
+          // Read POM xml file using 'readMavenPom' step , this step 'readMavenPom' is included in: https://plugins.jenkins.io/pipeline-utility-steps
+          pom = readMavenPom file: "pom.xml";
+          // Find built artifact under target folder
+          filesByGlob = findFiles(glob: "target/*.${pom.packaging}");
+          // Print some info from the artifact found
+          echo "${filesByGlob[0].name} ${filesByGlob[0].path} ${filesByGlob[0].directory} ${filesByGlob[0].length} ${filesByGlob[0].lastModified}"
+          // Extract the path from the File found
+          artifactPath = filesByGlob[0].path;
+          // Assign to a boolean response verifying If the artifact name exists
+          artifactExists = fileExists artifactPath;
+          if(artifactExists) {
+            echo "*** File: ${artifactPath}, group: ${pom.groupId}, packaging: ${pom.packaging}, version ${pom.version}";
+            nexusArtifactUploader(
+              nexusVersion: NEXUS_VERSION,
+              protocol: NEXUS_PROTOCOL,
+              nexusUrl: NEXUS_URL,
+              groupId: pom.groupId,
+              version: pom.version,
+              repository: NEXUS_REPOSITORY,
+              credentialsId: NEXUS_CREDENTIAL_ID,
+              artifacts: [
+                // Artifact generated such as .jar, .ear and .war files.
+                [artifactId: pom.artifactId,
+                classifier: '',
+                file: artifactPath,
+                type: pom.packaging],
+                // Lets upload the pom.xml file for additional information for Transitive dependencies
+                [artifactId: pom.artifactId,
+                classifier: '',
+                file: "pom.xml",
+                type: "pom"]
+              ]
+            );
+          } else {
+            error "*** File: ${artifactPath}, could not be found";
+          }
+        }
+      }
+    }
+    stage("downstream") {
+      steps {
+        build(job: 'packer_build')
+      }
+    }
+  }
+
+  post {
+    cleanup {
+      cleanWs()
+    }
+  }
 }
