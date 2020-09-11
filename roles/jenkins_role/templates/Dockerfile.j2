@@ -33,9 +33,15 @@ RUN wget https://releases.hashicorp.com/packer/1.6.1/packer_1.6.1_linux_amd64.zi
   && unzip packer_1.6.1_linux_amd64.zip -d /usr/local/bin \
   && rm packer_1.6.1_linux_amd64.zip
 
+RUN curl https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.tar.gz > /tmp/google-cloud-sdk.tar.gz \
+  && mkdir -p /usr/local/gcloud \
+  && tar -C /usr/local/gcloud -xvf /tmp/google-cloud-sdk.tar.gz \
+  && /usr/local/gcloud/google-cloud-sdk/install.sh
+
 RUN yum -y install ansible
 
 ENV PATH=$PATH:/usr/local/bin/packer
+ENV PATH $PATH:/usr/local/gcloud/google-cloud-sdk/bin
 
 # COPY ./jenkins.yaml /var/jenkins_home/casc_configs/
 VOLUME /var/{{ docker_volume }}

@@ -21,15 +21,15 @@ pipeline {
       steps {
         script {
           env.NEXUS_IP = sh (
-            script: 'gcloud secrets versions access "{{ version_id }}" --secret="nexus_ip_dz"\"',
+            script: 'gcloud secrets versions access "{{ version_id }}" --secret="nexus_ip_dz"',
             returnStdout: true
           ).trim()
           // env.MY_SQL_IP = sh (
-          //   script: 'gcloud secrets versions access "{{ version_id }}" --secret="mysql_ip_dz"\"',
+          //   script: 'gcloud secrets versions access "{{ version_id }}" --secret="mysql_ip_dz"',
           //   returnStdout: true
           // ).trim()
           // env.MY_SQL_PASS = sh (
-          //   script: 'gcloud secrets versions access "{{ version_id }}" --secret="mysql_pass_dz"\"',
+          //   script: 'gcloud secrets versions access "{{ version_id }}" --secret="mysql_pass_dz"',
           //   returnStdout: true
           // ).trim()
         }
@@ -51,8 +51,6 @@ pipeline {
           packer build \
           -var \'path=${PASS}\' \
           -var \'acc_key=${CRED}\' \
-          // -var \'mysql_pass=petpass\' \
-          // -var \'mysql_ip=35.194.44.253\' \
           -var \'nexus_url=${NEXUS_IP}\' \
           pet_centos72.json
           """
