@@ -38,9 +38,6 @@ variable "routing_mode" {
 }
 
 #instances
-variable "key_privat" {
-  type = string
-}
 variable "instances_names" {
   type    = list(string)
   default = ["jenkins-petclinic", "nexus-petclinic"]

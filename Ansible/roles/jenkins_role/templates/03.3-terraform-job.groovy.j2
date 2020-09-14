@@ -24,7 +24,7 @@ import javaposse.jobdsl.dsl.DslFactory.*
 // }
 // """;
 def jobDSL="""
-pipelineJob('terraform') {
+pipelineJob('terraform_build_DEV') {
   environmentVariables {
       env('name', 'value')
   }

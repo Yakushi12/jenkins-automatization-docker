@@ -37,6 +37,10 @@ variable "mysql_user_host" {
   type        = string
   default     = "%"
 }
+variable "mysql_user_name" {
+  description = "The name of mysql user."
+  type        = string
+}
 variable "project" {
   description = "The ID of the project"
   type        = string

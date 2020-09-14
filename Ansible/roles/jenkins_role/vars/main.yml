@@ -34,3 +34,5 @@ valut_pass_name                   : 'pass'
 service_acc_file                  : "{{ lookup(\"file\", \"/Users/dzakharchenko/WhoAmI/gcp/service_acc_key.json\") }}"
 valut_pass                        : "{{ lookup('file', '/Users/dzakharchenko/vpass') }}"
 nexus_ip_secret                   : "nexus_ip_dz"
+gitCIurl                          : git@github.com:Yakushi12/jenkins-automatization-docker.git
+service_acc_key                   : service_acc_key

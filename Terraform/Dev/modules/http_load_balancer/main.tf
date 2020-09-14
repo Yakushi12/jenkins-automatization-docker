@@ -2,7 +2,6 @@ locals {
 global_address_name = "http"
 }
 
-
 resource "google_compute_global_address" "default" {
   name         = local.global_address_name
   ip_version   = "IPV4"

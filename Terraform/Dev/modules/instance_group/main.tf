@@ -1,8 +1,3 @@
-# data "google_compute_image" "centos" {
-#  family  = var.google_compute_image_family
-#  project = var.google_compute_image_project
-# }
-
 #-------Create Template-------#
 resource "google_compute_instance_template" "default" {
   name_prefix  = "${var.google_compute_name}-instance-"

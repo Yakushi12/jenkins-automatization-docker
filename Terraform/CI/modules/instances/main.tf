@@ -9,9 +9,9 @@ resource "google_compute_instance" "centos7" {
       image = element(var.images, count.index)
     }
   }
-  metadata = {
-    ssh-keys       = "${var.user}:${file(var.key_privat)}"
-  }
+  #metadata = {
+  #  ssh-keys       = "${var.user}:${file(var.key_privat)}"
+  #}
   service_account {
     scopes = var.template_service_account_scopes
   }

@@ -7,8 +7,8 @@ user             = "dzakharchenko"
 
 #secret_manager
 secret_pair = {
-  "mysql_pass_dz"        = "petpass"
-  #"mysql_ip_dz" = "35.194.44.253"
+  "mysql_pass_dz"   = "petpass"
+  "service_acc_key" = file("/Users/dzakharchenko/WhoAmI/gcp/service_acc_key.json")
 }
 
 #networking
@@ -21,5 +21,5 @@ fw_target_tags  = ["fw-tcp"]
 
 #instances
 instances_names = ["jenkins-petclinic-ci", "nexus-petclinic-ci"]
-images          = ["jenkins-centos7-e6254c1", "nexus-centos7-1598457079"]
-key_privat      = "/Users/dzakharchenko/.ssh/google_compute_engine.pub"
+images          = ["projects/gd-gcp-internship-kha-koh/global/images/family/petclinic-intern-jenkins", "projects/gd-gcp-internship-kha-koh/global/images/family/petclinic-intern-nexus"]
+#key_privat      = "/Users/dzakharchenko/.ssh/google_compute_engine.pub"

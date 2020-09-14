@@ -26,11 +26,6 @@ ip_cidr_range   = "10.135.0.0/20"
 fw_ports        = ["22", "80", "8080-8081"]
 fw_target_tags  = ["fw-tcp"]
 
-# #instances
-# instances_names = ["jenkins-petclinic-ci", "nexus-petclinic-ci"]
-# images          = ["jenkins-centos7-e6254c1", "nexus-centos7-1598457079"]
-# key_privat      = "/Users/dzakharchenko/.ssh/google_compute_engine.pub"
-
 #instance_group
 template_startup_script = "scripts/petclinic-nginx.sh"
 template_network        = "intern-infra-net"    #"dzakharchenko-network"
@@ -40,7 +35,7 @@ template_service_account_scopes = ["userinfo-email", "compute-ro", "storage-ro",
 #google_compute_instance_image  = "projects/centos-cloud/global/images/family/centos-7"
 #google_compute_image_family   = "centos-7"
 #google_compute_image_project  = "centos-cloud"
-google_compute_instance_image = "projects/gd-gcp-internship-kha-koh/global/images/petclinic-centos7-1598009207"
+google_compute_instance_image = "projects/gd-gcp-internship-kha-koh/global/images/family/petclinic-intern-website"
 google_compute_name           = "dz"
 health_check_name             = "petclinic"
 
@@ -64,3 +59,4 @@ mysql_authorized_networks = [{
 }]
 mysql_user_password = "petpass"
 mysql_user_host     = "%"
+mysql_user_name     = "root"

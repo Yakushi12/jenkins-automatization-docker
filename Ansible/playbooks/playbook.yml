@@ -19,17 +19,4 @@
 #         state: present
 #         force: yes
 
-- hosts: Jenkins
-  become: true
-  gather_facts: no
-  tags: jenkins
-  roles:
-    - { role: jenkins_role, tags: jenkins }
-
-- hosts: Nexus
-  become: true
-  gather_facts: no
-  tags: nexus
-  roles:
-    - { role: nexus_role, tags: nexus }
 ...
