@@ -1,0 +1,14 @@
+{
+  "registry.terraform.io/-/google": {
+    "hash": "h1:kB+HiYcL3zJ2DlHNSnGLl54dkGyBLhyfx81bbZNf9UU=",
+    "version": "3.38.0"
+  },
+  "registry.terraform.io/hashicorp/google": {
+    "hash": "h1:kB+HiYcL3zJ2DlHNSnGLl54dkGyBLhyfx81bbZNf9UU=",
+    "version": "3.38.0"
+  },
+  "registry.terraform.io/hashicorp/google-beta": {
+    "hash": "h1:ly9pJrYTMeoQyBZIXA9Nx0xJHJe0wNe90ulXt5YFV6g=",
+    "version": "3.38.0"
+  }
+}
