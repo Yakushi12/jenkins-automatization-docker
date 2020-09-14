@@ -1,0 +1,25 @@
+#!groovy
+
+import jenkins.model.*
+import hudson.util.*;
+import jenkins.install.*;
+import hudson.security.*
+
+def instance = Jenkins.getInstance()
+
+instance.setSystemMessage("Hello, this Jenkins instance installed and configured by DevOps intern Zakharchenko Danylo. It's already preinstalled credentials, maven, plugins, and pipeline job for deploying artifact to Nexus repository prepared by DevOps intern Pysarenko Dmytro.")
+
+println "--> creating local user 'admin'"
+def env = System.getenv()
+if(!(instance.getSecurityRealm() instanceof HudsonPrivateSecurityRealm))
+    instance.setSecurityRealm(new HudsonPrivateSecurityRealm(false))
+
+if(!(instance.getAuthorizationStrategy() instanceof hudson.security.GlobalMatrixAuthorizationStrategy))
+    instance.setAuthorizationStrategy(new hudson.security.GlobalMatrixAuthorizationStrategy())
+
+def user = instance.getSecurityRealm().createAccount("{{ jenkins_user }}", "{{ jenkins_pass }}")
+user.setFullName("{{ jenkins_fullName }}")
+user.addProperty(new org.jenkinsci.main.modules.cli.auth.ssh.UserPropertyImpl("{{ public_key }}"))
+user.save()
+instance.getAuthorizationStrategy().add(Jenkins.ADMINISTER, "{{ jenkins_user }}")
+instance.save()

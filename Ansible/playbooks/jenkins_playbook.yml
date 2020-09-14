@@ -1,0 +1,22 @@
+---
+
+- hosts: default
+  become: true
+  gather_facts: no
+  # tags:
+  # -  jenkins-install
+  roles:
+    - { role: docker, tags: jenkins-install }
+    - { role: jenkins_role }
+  vars:
+    proxy_port: '{{ jenkins_port }}'
+
+- hosts: Jenkins
+  become: true
+  gather_facts: no
+  # tags:
+  # -  jenkins-configure
+  roles:
+    - { role: jenkins_role } #, tags: jenkins-configure }
+
+...

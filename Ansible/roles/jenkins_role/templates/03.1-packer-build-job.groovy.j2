@@ -1,0 +1,32 @@
+#!groovy
+
+import javaposse.jobdsl.dsl.DslScriptLoader
+import javaposse.jobdsl.plugin.JenkinsJobManagement
+import jenkins.model.Jenkins
+import javaposse.jobdsl.dsl.DslFactory.*
+
+def jobDSL="""
+pipelineJob('packer_build') {
+  environmentVariables {
+      env('nexusIp', '0.0.0.0')
+  }
+
+  definition {
+    cps {
+      script(readFileFromWorkspace('/usr/share/jenkins/ref/init.groovy.d/Jenkinsfile-03.1'))
+      sandbox(true)
+    }
+  }
+}
+""";
+def jobManagement = new JenkinsJobManagement(System.out, [:], new File('.'))
+new DslScriptLoader(jobManagement).runScript(jobDSL)
+def scriptApproval = org.jenkinsci.plugins.scriptsecurity.scripts.ScriptApproval.get()
+String[] signs = [
+    "method org.jenkinsci.plugins.workflow.steps.FlowInterruptedException getCauses",
+    "method org.jenkinsci.plugins.workflow.support.steps.input.Rejection getUser"
+    ]
+for( String sign : signs ) {
+    scriptApproval.approveSignature(sign)
+}
+scriptApproval.save()

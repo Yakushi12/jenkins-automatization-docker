@@ -1,0 +1,35 @@
+jenkins_home                      : /var/lib/jenkins
+# public_key                        : "{{ lookup('file', '{{ path.stdout }}/{{ ssh_key }}.pub') }}"
+# private_key                       : "{{ lookup('file', '{{ path.stdout }}/{{ ssh_key }}') }}"
+public_key                        : "{{ lookup('file', '/Users/dzakharchenko/.ssh/github.pub') }}"
+private_key                       : "{{ lookup('file', '/Users/dzakharchenko/.ssh/github') }}"
+jenkins_user                      : jenkins
+jenkins_pass                      : pass
+jenkins_fullName                  : Jenkins_Admin
+gitName                           : jenkins
+gitEmail                          : jenkins@example.com
+gitUrl                            : git@github.com:Yakushi12/spring-petclinic.git
+credentials                       : GH_private_key
+branch                            : '*/main'
+targetBranch                      : main
+jobName                           : deploy_nexus
+mavenVersion                      : 3.6.3
+mavenName                         : Maven
+mavenRepo                         : maven-snapshots
+jenkinsSSHcredentials_description : 'private key for GitHub'
+jenkinsKey_id                     : nexus-cred
+jenkinsKey_description            : 'Login to Nexus3 OSS'
+jenkinsKey_user                   : admin
+jenkinsKey_pass                   : password
+jenkins_token                     : 11517e4ae0308056e4ea15d6d179f0f7f9
+docker_volume                     : jenkins_home
+docker_image_name                 : jenkins-docker
+docker_container_name             : jenkins
+jenkinsFile_id                    : 'gcp_service_acc_cred'
+jenkinsFile_description           : 'Service account json Key'
+jenkinsFile_name                  : 'account.json'
+valut_pass_id                     : 'pass'
+valut_pass_description            : 'password for ansible vault'
+valut_pass_name                   : 'pass'
+service_acc_file                  : "{{ lookup(\"file\", \"/Users/dzakharchenko/WhoAmI/gcp/service_acc_key.json\") }}"
+valut_pass                        : "{{ lookup('file', '/Users/dzakharchenko/vpass') }}"

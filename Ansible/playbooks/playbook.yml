@@ -1,0 +1,35 @@
+---
+# - hosts: localhost
+#   connection: local
+#   gather_facts: no
+#   tags: localhost
+#   tasks:
+#
+#     - name: Find out playbooks path
+#       shell: pwd
+#       register: path
+#
+#     - debug: msg="{{ path.stdout }}"
+#
+#     - name: Generate ssh key pair
+#       openssh_keypair:
+#         path: "{{ path.stdout }}/{{ ssh_key }}"
+#         type: rsa
+#         size: 2048
+#         state: present
+#         force: yes
+
+- hosts: Jenkins
+  become: true
+  gather_facts: no
+  tags: jenkins
+  roles:
+    - { role: jenkins_role, tags: jenkins }
+
+- hosts: Nexus
+  become: true
+  gather_facts: no
+  tags: nexus
+  roles:
+    - { role: nexus_role, tags: nexus }
+...
