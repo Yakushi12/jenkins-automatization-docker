@@ -5,9 +5,28 @@ provider "google" {
   zone        = var.zone
 }
 
+#-------Create MySql Database-------#
+module "mysql" {
+source  = "./modules/mysql"
+project = var.project
+
+#user
+mysql_user_password = var.mysql_user_password
+mysql_user_host     = var.mysql_user_host
+
+#db
+mysql_name                = var.mysql_name
+mysql_database_version    = var.mysql_database_version
+mysql_region              = var.mysql_region
+mysql_tier                = var.mysql_tier
+mysql_activation_policy   = var.mysql_activation_policy
+mysql_authorized_networks = var.mysql_authorized_networks
+}
+
 #-------Create Instance Group-------#
 module "instance_group" {
-  source = "./modules/instance_group"
+  source            = "./modules/instance_group"
+  depends_on = [module.mysql]
 
   zone                                    = var.zone
   fw_target_tags                          = var.fw_target_tags
@@ -30,6 +49,7 @@ module "instance_group" {
 #-------Create Load Balancer-------#
 module "load_balancer" {
   source = "./modules/http_load_balancer"
+  depends_on = [module.instance_group]
 
   lb_name                               = var.lb_name
   fw_network                            = var.template_network
@@ -40,22 +60,4 @@ module "load_balancer" {
   google_compute_health_check           = module.instance_group.google_compute_health_check
   google_compute_instance_group_manager = [module.instance_group.instance_group_scope]
 
-}
-
-#-------Create MySql Database-------#
-module "mysql" {
-  source  = "./modules/mysql"
-  project = var.project
-
-  #user
-  mysql_user_password = var.mysql_user_password
-  mysql_user_host     = var.mysql_user_host
-
-  #db
-  mysql_name                = var.mysql_name
-  mysql_database_version    = var.mysql_database_version
-  mysql_region              = var.mysql_region
-  mysql_tier                = var.mysql_tier
-  mysql_activation_policy   = var.mysql_activation_policy
-  mysql_authorized_networks = var.mysql_authorized_networks
 }

@@ -7,10 +7,6 @@ import javaposse.jobdsl.dsl.DslFactory.*
 
 def jobDSL="""
 pipelineJob('packer_build') {
-  environmentVariables {
-      env('nexusIp', '0.0.0.0')
-  }
-
   definition {
     cps {
       script(readFileFromWorkspace('/usr/share/jenkins/ref/init.groovy.d/Jenkinsfile-03.1'))

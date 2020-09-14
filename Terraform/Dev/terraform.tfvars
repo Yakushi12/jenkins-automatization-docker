@@ -7,15 +7,15 @@ user             = "dzakharchenko"
 #bucket
 bucket_state_name = "dzakharchenko_bucket"
 
-#secret_manager
-secret_pair = {
-  # "SPRING_PROFILE" = "mysql"
-  # "DB_AUTO_UPDATE" = "auto"
-  # "DB_URL"         = "35.194.44.253"
-  # "DB_USER"        = "petclinic"
-  "mysql_pass_dz"        = "petpass"
-  #"mysql_ip_dz" = "35.194.44.253"
-}
+# #secret_manager
+# secret_pair = {
+#   # "SPRING_PROFILE" = "mysql"
+#   # "DB_AUTO_UPDATE" = "auto"
+#   # "DB_URL"         = "35.194.44.253"
+#   # "DB_USER"        = "petclinic"
+#   "mysql_pass_dz"        = "petpass"
+#   #"mysql_ip_dz" = "35.194.44.253"
+# }
 
 
 #networking
@@ -26,10 +26,10 @@ ip_cidr_range   = "10.135.0.0/20"
 fw_ports        = ["22", "80", "8080-8081"]
 fw_target_tags  = ["fw-tcp"]
 
-#instances
-instances_names = ["jenkins-petclinic-ci", "nexus-petclinic-ci"]
-images          = ["jenkins-centos7-e6254c1", "nexus-centos7-1598457079"]
-key_privat      = "/Users/dzakharchenko/.ssh/google_compute_engine.pub"
+# #instances
+# instances_names = ["jenkins-petclinic-ci", "nexus-petclinic-ci"]
+# images          = ["jenkins-centos7-e6254c1", "nexus-centos7-1598457079"]
+# key_privat      = "/Users/dzakharchenko/.ssh/google_compute_engine.pub"
 
 #instance_group
 template_startup_script = "scripts/petclinic-nginx.sh"

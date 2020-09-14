@@ -25,9 +25,9 @@ RUN yum -y update && yum -y install \
     python-pip \
     ansible
 
-RUN wget --quiet https://releases.hashicorp.com/terraform/0.11.3/terraform_0.11.3_linux_amd64.zip \
-  && unzip terraform_0.11.3_linux_amd64.zip -d /usr/local/bin \
-  && rm terraform_0.11.3_linux_amd64.zip
+RUN wget --quiet https://releases.hashicorp.com/terraform/0.13.2/terraform_0.13.2_linux_amd64.zip \
+  && unzip terraform_0.13.2_linux_amd64.zip -d /usr/local/bin \
+  && rm terraform_0.13.2_linux_amd64.zip
 
 RUN wget https://releases.hashicorp.com/packer/1.6.1/packer_1.6.1_linux_amd64.zip \
   && unzip packer_1.6.1_linux_amd64.zip -d /usr/local/bin \

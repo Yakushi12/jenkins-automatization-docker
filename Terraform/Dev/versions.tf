@@ -8,7 +8,7 @@ terraform {
 
   backend "gcs" {
     bucket      = "dz-tf-backup"
-    prefix      = "terraform/terraform"
+    prefix      = "terraform/Dev"
     credentials = "/Users/dzakharchenko/WhoAmI/gcp/service_acc_key.json"
   }
 }

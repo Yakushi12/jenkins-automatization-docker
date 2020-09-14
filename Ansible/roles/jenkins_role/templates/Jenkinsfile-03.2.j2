@@ -10,25 +10,24 @@ pipeline {
   environment {
     NEXUS_VERSION = "nexus3"
     NEXUS_PROTOCOL = "http"
-    NEXUS_URL = "${NEXUS_IP}:8081"
     NEXUS_REPOSITORY = "maven-snapshots"
     NEXUS_CREDENTIAL_ID = "nexus-cred"
-    CRED = credentials('gcp_service_acc_cred')
+    // CRED = credentials('{{ jenkinsFile_id }}')
   }
 
   stages {
-    stage("gcloud auth") {
+    /*stage("gcloud auth") {
       steps {
         script {
           sh("gcloud auth activate-service-account --key-file=\"${CRED}\"")
         }
       }
-    }
+    }*/
     stage("get vars") {
       steps {
         script {
           env.NEXUS_IP = sh (
-            script: 'gcloud secrets versions access "{{ version_id }}" --secret="nexus_ip_dz"',
+            script: 'gcloud secrets versions access "{{ version_id }}" --secret="{{ nexus_ip_secret }}"',
             returnStdout: true
           ).trim()
         }
@@ -37,9 +36,9 @@ pipeline {
     stage("clone code") {
       steps {
         script {
-          git credentialsId: "GH_private_key",
-          branch: "main",
-          url: "git@github.com:Yakushi12/spring-petclinic.git";
+          git credentialsId: "{{ credentials }}",
+          branch: "{{ targetBranch }}",
+          url: "{{ gitUrl }}";
         }
       }
     }
@@ -68,7 +67,7 @@ pipeline {
             nexusArtifactUploader(
               nexusVersion: NEXUS_VERSION,
               protocol: NEXUS_PROTOCOL,
-              nexusUrl: NEXUS_URL,
+              nexusUrl: "${NEXUS_IP}:8081",
               groupId: pom.groupId,
               version: pom.version,
               repository: NEXUS_REPOSITORY,

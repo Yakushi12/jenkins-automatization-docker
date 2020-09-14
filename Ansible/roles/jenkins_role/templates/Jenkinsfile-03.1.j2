@@ -1,37 +1,29 @@
 pipeline {
 
   environment {
-      CRED = credentials('gcp_service_acc_cred')
-      PASS = credentials('pass')
+    // CRED = credentials('{{ jenkinsFile_id }}')
+    PASS = credentials('{{ valut_pass_id }}')
   }
 
   agent {
-      label "master"
+    label "master"
   }
 
   stages {
-    stage("gcloud auth") {
+    /*stage("gcloud auth") {
       steps {
         script {
           sh("gcloud auth activate-service-account --key-file=\"${CRED}\"")
         }
       }
-    }
+    }*/
     stage("get vars") {
       steps {
         script {
           env.NEXUS_IP = sh (
-            script: 'gcloud secrets versions access "{{ version_id }}" --secret="nexus_ip_dz"',
+            script: 'gcloud secrets versions access "{{ version_id }}" --secret="{{ nexus_ip_secret }}"',
             returnStdout: true
           ).trim()
-          // env.MY_SQL_IP = sh (
-          //   script: 'gcloud secrets versions access "{{ version_id }}" --secret="mysql_ip_dz"',
-          //   returnStdout: true
-          // ).trim()
-          // env.MY_SQL_PASS = sh (
-          //   script: 'gcloud secrets versions access "{{ version_id }}" --secret="mysql_pass_dz"',
-          //   returnStdout: true
-          // ).trim()
         }
       }
     }
@@ -39,18 +31,21 @@ pipeline {
       steps {
         script {
           git credentialsId: "GH_private_key",
-          branch: "nginx",
-          url: "git@github.com:Yakushi12/jenkins-automatization-docker.git";
+          branch: "master",
+          url: "{{ gitCIurl }}";
         }
       }
     }
     stage('Create Packer AMI') {
       steps {
+        script {
+          sh("gcloud secrets versions access latest --secret='gcp-json' > account.json")
+        }
         dir('./roles/jenkins_role/files/Ansible/'){
           sh """
           packer build \
           -var \'path=${PASS}\' \
-          -var \'acc_key=${CRED}\' \
+          -var \'acc_key=account.json\' \
           -var \'nexus_url=${NEXUS_IP}\' \
           pet_centos72.json
           """

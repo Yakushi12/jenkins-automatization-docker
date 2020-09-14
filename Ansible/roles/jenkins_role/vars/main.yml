@@ -33,3 +33,4 @@ valut_pass_description            : 'password for ansible vault'
 valut_pass_name                   : 'pass'
 service_acc_file                  : "{{ lookup(\"file\", \"/Users/dzakharchenko/WhoAmI/gcp/service_acc_key.json\") }}"
 valut_pass                        : "{{ lookup('file', '/Users/dzakharchenko/vpass') }}"
+nexus_ip_secret                   : "nexus_ip_dz"
