@@ -13,8 +13,8 @@ module "mysql" {
 
   #user
   mysql_user_host     = var.mysql_user_host
-  mysql_user_name     = [var.mysql_user_name]
-  mysql_user_password = [var.mysql_user_password]
+  mysql_user_name     = var.mysql_user_name
+  mysql_user_password = var.mysql_user_password
   #db
   mysql_name                = var.mysql_name
   mysql_tier                = var.mysql_tier
