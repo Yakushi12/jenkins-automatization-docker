@@ -25,10 +25,19 @@ resource "google_sql_database_instance" "mysql" {
 }
 
 resource "google_sql_user" "root_user" {
-  instance = google_sql_database_instance.mysql.name
-  name     = var.mysql_user_name
-  password = var.mysql_user_password
+  count    = 2
+  name     = element(var.var.mysql_user_name, count.index)
   host     = var.mysql_user_host
+  instance = google_sql_database_instance.mysql.name
+  password = element(var.var.var.mysql_user_password, count.index)
+}
+
+resource "google_sql_database" "database" {
+  name      = var.mysql_db_name
+  project   = var.project
+  charset   = var.mysql_charset
+  instance  = google_sql_database_instance.mysql.name
+  collation = var.mysql_collation
 }
 
 module "google_compute_instance_secret" {

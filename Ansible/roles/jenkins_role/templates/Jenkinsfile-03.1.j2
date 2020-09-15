@@ -9,26 +9,26 @@ pipeline {
   }
 
   stages {
-    stage("get vars") {
-      steps {
-        script {
-          env.NEXUS_IP = sh (
-            script: 'gcloud secrets versions access "latest" --secret="nexus_ip_dz"',
-            returnStdout: true
-            ).trim()
-        }
-      }
-    }
     stage("clone code") {
       steps {
         script {
           git credentialsId: "GH_private_key",
           branch: "main",
           url: "git@github.com:Yakushi12/jenkins-automatization-docker.git";
+        }
+      }
+    }
+    stage("get vars") {
+      steps {
+        script {
+          env.NEXUS_IP = sh (
+            script: 'gcloud secrets versions access "latest" --secret="nexus_ip_dz"',
+            returnStdout: true
+            ).trim();
           env.GIT_COMMIT = sh(
               returnStdout: true,
               script: 'git log --pretty="%h" -1'
-              ).trim()
+              ).trim();
         }
       }
     }
@@ -41,7 +41,7 @@ pipeline {
           -var \'path=${PASS}\' \
           -var \'acc_key=account.json\' \
           -var \'nexus_url=${NEXUS_IP}\' \
-          -var \'commit_id=${env.GIT_COMMIT}\' \
+          -var \'commit_id=${GIT_COMMIT}\' \
           pet_centos72.json
           """
         }

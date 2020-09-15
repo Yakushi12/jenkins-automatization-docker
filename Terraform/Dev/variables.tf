@@ -122,6 +122,19 @@ variable "mysql_user_name" {
   description = "The name of mysql user."
   type        = string
 }
+variable "mysql_charset" {
+  description = "The charset value. See MySQL's Supported Character Sets and Collations and Postgres' Character Set Support for more details and supported values. Postgres databases only support a value of UTF8 at creation time."
+  type        = string
+}
+variable "mysql_collation" {
+  description = "The collation value. See MySQL's Supported Character Sets and Collations and Postgres' Collation Support for more details and supported values. Postgres databases only support a value of en_US.UTF8 at creation time."
+  type        = string
+}
+variable "mysql_db_name" {
+  description = "The name of the database in the Cloud SQL instance. This does not include the project ID or instance name."
+  type        = string
+}
+
 
 #http_load_balancer
 variable "lb_name" {

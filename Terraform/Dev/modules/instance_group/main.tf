@@ -46,7 +46,7 @@ resource "google_compute_instance_group_manager" "instance_group_manager" {
   zone               = var.zone
   name               = "${var.google_compute_name}-scalable-petclinic"
   base_instance_name = "${var.google_compute_name}-pet"
-  target_size        = "1"
+  target_size        = "2"
   version {
     instance_template = google_compute_instance_template.default.id
     name              = "${var.google_compute_name}-centos7"
@@ -58,6 +58,13 @@ resource "google_compute_instance_group_manager" "instance_group_manager" {
   auto_healing_policies {
     health_check      = google_compute_health_check.default.id
     initial_delay_sec = 30
+  }
+  update_policy {
+    type                  = "PROACTIVE"
+    minimal_action        = "REPLACE"
+    max_surge_percent     = 20
+    max_unavailable_fixed = 2
+    min_ready_sec         = 50
   }
 }
 

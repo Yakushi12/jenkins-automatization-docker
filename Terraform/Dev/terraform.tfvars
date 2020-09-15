@@ -40,5 +40,8 @@ mysql_authorized_networks = [{
   value = "0.0.0.0/0"
 }]
 mysql_user_host     = "%"
-mysql_user_name     = "root"
-mysql_user_password = "petpass"
+mysql_user_name     = ["root", "petclinic"]
+mysql_user_password = ["password", "petclinic"]
+mysql_charset       = "utf8"
+mysql_collation     = "utf8_general_ci"
+mysql_db_name       = "petclinic"

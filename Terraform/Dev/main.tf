@@ -19,9 +19,12 @@ module "mysql" {
   mysql_name                = var.mysql_name
   mysql_tier                = var.mysql_tier
   mysql_region              = var.mysql_region
+  mysql_db_name             = var.mysql_db_name
   mysql_database_version    = var.mysql_database_version
   mysql_activation_policy   = var.mysql_activation_policy
   mysql_authorized_networks = var.mysql_authorized_networks
+  mysql_charset             = var.mysql_charset
+  mysql_collation           = var.mysql_collation
 }
 
 #-------Create Instance Group-------#
