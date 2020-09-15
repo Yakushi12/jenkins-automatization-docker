@@ -26,10 +26,10 @@ resource "google_sql_database_instance" "mysql" {
 
 resource "google_sql_user" "root_user" {
   count    = 2
-  name     = element(var.var.mysql_user_name, count.index)
+  name     = element(var.mysql_user_name, count.index)
   host     = var.mysql_user_host
   instance = google_sql_database_instance.mysql.name
-  password = element(var.var.var.mysql_user_password, count.index)
+  password = element(var.mysql_user_password, count.index)
 }
 
 resource "google_sql_database" "database" {
