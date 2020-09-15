@@ -56,7 +56,7 @@ module "load_balancer" {
 
   lb_name                               = var.lb_name
   fw_network                            = var.template_network
-  instance_group                        = module.instance_group.instance_group_manager_id
+  instance_group                        = module.instance_group.instance_group_scope
   backend_timeout_sec                   = var.backend_timeout_sec
   backend_balancing_mode                = var.backend_balancing_mode
   backend_capacity_scaler               = var.backend_capacity_scaler
