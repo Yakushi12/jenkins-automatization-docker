@@ -46,7 +46,9 @@ module "google_compute_instance_secret" {
   project = var.project
   secret_pair = {
     "mysql_ip_dz"         = google_sql_database_instance.mysql.public_ip_address
-    "mysql_root_name"     = var.mysql_user_name
-    "mysql_root_password" = var.mysql_user_password
+    "mysql_root_name"     = var.mysql_user_name[1]
+    "mysql_root_password" = var.mysql_user_password[1]
+    "mysql_user_name"     = var.mysql_user_name[2]
+    "mysql_user_password" = var.mysql_user_password[2]
   }
 }
