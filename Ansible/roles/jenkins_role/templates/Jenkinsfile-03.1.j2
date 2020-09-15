@@ -8,13 +8,17 @@ pipeline {
     label "master"
   }
 
+  parameters {
+    string(defaultValue: "", description: "", name: "GIT_COMMIT")
+  }
+
   stages {
     stage("clone code") {
       steps {
         script {
-          git credentialsId: "GH_private_key",
-          branch: "main",
-          url: "git@github.com:Yakushi12/jenkins-automatization-docker.git";
+          git credentialsId: "{{ credentials }}",
+          branch: "{{ targetBranch }}",
+          url: "{{ gitCIurl }}";
         }
       }
     }
@@ -22,20 +26,15 @@ pipeline {
       steps {
         script {
           env.NEXUS_IP = sh (
-            script: 'gcloud secrets versions access "latest" --secret="nexus_ip_dz"',
+            script: 'gcloud secrets versions access "latest" --secret="{{ nexus_ip_secret }}"',
             returnStdout: true
             ).trim();
-          env.GIT_COMMIT = sh(
-              returnStdout: true,
-              script: 'git log --pretty="%h" -1'
-              ).trim();
-        }
       }
     }
     stage('Create Packer AMI') {
       steps {
         dir('Ansible_packer_job/'){
-          sh("gcloud secrets versions access latest --secret='service_acc_key' > account.json")
+          sh("gcloud secrets versions access latest --secret='{{ service_acc_key }}' > account.json")
           sh """
           packer build \
           -var \'path=${PASS}\' \

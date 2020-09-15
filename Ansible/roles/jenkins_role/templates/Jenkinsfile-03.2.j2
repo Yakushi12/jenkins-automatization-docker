@@ -37,7 +37,11 @@ pipeline {
           env.NEXUS_IP = sh (
             script: 'gcloud secrets versions access "{{ version_id }}" --secret="{{ nexus_ip_secret }}"',
             returnStdout: true
-          ).trim()
+          ).trim();
+          env.GIT_COMMIT = sh(
+              returnStdout: true,
+              script: 'git log --pretty="%h" -1'
+              ).trim();
         }
       }
     }
@@ -85,7 +89,7 @@ pipeline {
     }
     stage("downstream") {
       steps {
-        build(job: 'packer_build')
+        build(job: 'packer_build', parameters: [[$class: 'StringParameterValue', name: 'GIT_COMMIT', value: "${env.GIT_COMMIT}"]])
       }
     }
   }
