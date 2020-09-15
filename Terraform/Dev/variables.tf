@@ -111,7 +111,7 @@ variable "mysql_authorized_networks" {
 }
 variable "mysql_user_password" {
   description = "The password for the user. Can be updated."
-  type        = string
+  type        = list(string)
 }
 variable "mysql_user_host" {
   description = "The host the user can connect from."
@@ -120,7 +120,7 @@ variable "mysql_user_host" {
 }
 variable "mysql_user_name" {
   description = "The name of mysql user."
-  type        = string
+  type        = list(string)
 }
 variable "mysql_charset" {
   description = "The charset value. See MySQL's Supported Character Sets and Collations and Postgres' Character Set Support for more details and supported values. Postgres databases only support a value of UTF8 at creation time."
