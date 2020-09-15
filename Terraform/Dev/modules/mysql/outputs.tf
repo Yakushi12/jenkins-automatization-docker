@@ -4,7 +4,7 @@ output "instance_name" {
 }
 
 output "instance_ip_address" {
-  value       = google_sql_database_instance.mysql.ip_address
+  value       = google_sql_database_instance.mysql.public_ip_address
   description = "The IPv4 address assigned for the master instance"
 }
 
