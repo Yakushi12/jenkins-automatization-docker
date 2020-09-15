@@ -8,7 +8,7 @@ user             = "dzakharchenko"
 #secret_manager
 secret_pair = {
   "mysql_pass_dz"   = "petpass"
-  "service_acc_key" = file("/Users/dzakharchenko/WhoAmI/gcp/service_acc_key.json")
+  #"service_acc_key" = file("/Users/dzakharchenko/WhoAmI/gcp/service_acc_key.json")
 }
 
 #networking

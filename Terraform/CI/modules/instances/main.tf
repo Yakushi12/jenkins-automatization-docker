@@ -6,21 +6,16 @@ resource "google_compute_instance" "centos7" {
   tags         = var.fw_target_tags
   boot_disk {
     initialize_params {
-      image = element(var.images, count.index)
+      image    = element(var.images, count.index)
     }
   }
-  #metadata = {
-  #  ssh-keys       = "${var.user}:${file(var.key_privat)}"
-  #}
   service_account {
-    scopes = var.template_service_account_scopes
+    scopes     = var.template_service_account_scopes
   }
   network_interface {
     network    = var.template_network
     subnetwork = var.template_subnetwork
-    access_config {
-      #nat_ip = "34.107.9.190"
-    }
+    access_config { }
   }
 }
 

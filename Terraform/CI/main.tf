@@ -10,7 +10,7 @@ module "secret_manager" {
   source = "./modules/secret_manager"
 
   project = var.project
-  secret_pair = var.secret_pair
+  secret_pair = merge(var.secret_pair, {"service_acc_key" = file("/Users/dzakharchenko/WhoAmI/gcp/service_acc_key.json")})
 }
 
 
@@ -36,7 +36,7 @@ module "instances" {
   user                            = var.user
   images                          = var.images
   project                         = var.project
-  #key_privat                      = var.key_privat
+  #key_privat                     = var.key_privat
   fw_target_tags                  = module.Networking.fw_self_link
   instances_names                 = var.instances_names
   template_network                = module.Networking.net_self_link

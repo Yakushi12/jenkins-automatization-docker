@@ -41,7 +41,7 @@ pipeline {
         script {
           sh("gcloud secrets versions access latest --secret='{{ service_acc_key }}' > account.json")
         }
-        dir('Ansible_packer/'){
+        dir('Ansible_packer_job/'){
           sh """
           packer build \
           -var \'path=${PASS}\' \

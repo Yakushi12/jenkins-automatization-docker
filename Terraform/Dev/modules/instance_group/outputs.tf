@@ -8,5 +8,5 @@ output "instance_group_scope" {
   description = "The full URL of the instance group created by the manager."
 }
 output "google_compute_health_check" {
-  value = google_compute_health_check.default.self_link
+  value       = google_compute_health_check.default.self_link
 }

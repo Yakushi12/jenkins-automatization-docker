@@ -4,19 +4,9 @@ credentials_file = "/Users/dzakharchenko/WhoAmI/gcp/service_acc_key.json"
 region           = "us-central1"
 zone             = "us-central1-c"
 user             = "dzakharchenko"
+
 #bucket
 bucket_state_name = "dzakharchenko_bucket"
-
-# #secret_manager
-# secret_pair = {
-#   # "SPRING_PROFILE" = "mysql"
-#   # "DB_AUTO_UPDATE" = "auto"
-#   # "DB_URL"         = "35.194.44.253"
-#   # "DB_USER"        = "petclinic"
-#   "mysql_pass_dz"        = "petpass"
-#   #"mysql_ip_dz" = "35.194.44.253"
-# }
-
 
 #networking
 networking_name = "intern-infra"
@@ -27,17 +17,17 @@ fw_ports        = ["22", "80", "8080-8081"]
 fw_target_tags  = ["fw-tcp"]
 
 #instance_group
-template_startup_script = "scripts/petclinic-nginx.sh"
-template_network        = "intern-infra-net"    #"dzakharchenko-network"
-template_subnetwork     = "intern-infra-subnet" #"dzakharchenko-subnet"
-template_machine_type   = "n1-standard-1"
+template_startup_script         = "scripts/petclinic-nginx.sh"
+template_network                = "intern-infra-net"    #"dzakharchenko-network"
+template_subnetwork             = "intern-infra-subnet" #"dzakharchenko-subnet"
+template_machine_type           = "n1-standard-1"
 template_service_account_scopes = ["userinfo-email", "compute-ro", "storage-ro", "cloud-platform"]
 #google_compute_instance_image  = "projects/centos-cloud/global/images/family/centos-7"
-#google_compute_image_family   = "centos-7"
-#google_compute_image_project  = "centos-cloud"
-google_compute_instance_image = "projects/gd-gcp-internship-kha-koh/global/images/family/petclinic-intern-website"
-google_compute_name           = "dz"
-health_check_name             = "petclinic"
+#google_compute_image_family    = "centos-7"
+#google_compute_image_project   = "centos-cloud"
+google_compute_instance_image   = "projects/gd-gcp-internship-kha-koh/global/images/family/petclinic-intern-website"
+google_compute_name             = "dz"
+health_check_name               = "petclinic"
 
 # LoadBalancer
 lb_name                   = "petclinic-lb"
@@ -48,11 +38,11 @@ health_check_interval_sec = "10"
 health_check_port         = "80"
 
 #Database
-mysql_name              = "petclinic-test1"
-mysql_database_version  = "MYSQL_5_7"
-mysql_region            = "us-central1"
-mysql_tier              = "db-g1-small"
-mysql_activation_policy = "ALWAYS"
+mysql_name                = "petclinic-test1"
+mysql_database_version    = "MYSQL_5_7"
+mysql_region              = "us-central1"
+mysql_tier                = "db-g1-small"
+mysql_activation_policy   = "ALWAYS"
 mysql_authorized_networks = [{
   name  = "All"
   value = "0.0.0.0/0"

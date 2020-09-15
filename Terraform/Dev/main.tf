@@ -5,22 +5,23 @@ provider "google" {
   zone        = var.zone
 }
 
+
 #-------Create MySql Database-------#
 module "mysql" {
-source  = "./modules/mysql"
-project = var.project
+  source  = "./modules/mysql"
+  project = var.project
 
-#user
-mysql_user_password = var.mysql_user_password
-mysql_user_host     = var.mysql_user_host
+  #user
+  mysql_user_password = var.mysql_user_password
+  mysql_user_host     = var.mysql_user_host
 
-#db
-mysql_name                = var.mysql_name
-mysql_database_version    = var.mysql_database_version
-mysql_region              = var.mysql_region
-mysql_tier                = var.mysql_tier
-mysql_activation_policy   = var.mysql_activation_policy
-mysql_authorized_networks = var.mysql_authorized_networks
+  #db
+  mysql_name                = var.mysql_name
+  mysql_database_version    = var.mysql_database_version
+  mysql_region              = var.mysql_region
+  mysql_tier                = var.mysql_tier
+  mysql_activation_policy   = var.mysql_activation_policy
+  mysql_authorized_networks = var.mysql_authorized_networks
 }
 
 #-------Create Instance Group-------#
