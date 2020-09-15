@@ -36,7 +36,7 @@ module "google_compute_instance_secret" {
 
   project = var.project
   secret_pair = {
-    "mysql_ip_dz"         = totring(google_sql_database_instance.mysql.ip_address)
+    "mysql_ip_dz"         = tostring(google_sql_database_instance.mysql.ip_address)
     "mysql_root_name"     = var.mysql_user_name
     "mysql_root_password" = var.mysql_user_password
   }
