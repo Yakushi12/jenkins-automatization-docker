@@ -1,6 +1,7 @@
 #project
-project          = "gd-gcp-internship-kha-koh"
-credentials_file = "/Users/dzakharchenko/WhoAmI/gcp/service_acc_key.json"
+project = "gd-gcp-internship-kha-koh"
+#credentials_file = "/Users/dzakharchenko/WhoAmI/gcp/service_acc_key.json"
+credentials_file = "account.json"
 region           = "us-central1"
 zone             = "us-central1-c"
 user             = "dzakharchenko"

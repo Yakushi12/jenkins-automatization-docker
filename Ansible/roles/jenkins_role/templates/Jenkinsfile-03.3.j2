@@ -15,10 +15,8 @@ pipeline {
     }
     stage('Create Packer AMI') {
       steps {
-        script {
-          sh("gcloud secrets versions access latest --secret='{{ service_acc_key }}' > account.json")
-        }
         dir('Terraform/Dev') {
+          sh("gcloud secrets versions access latest --secret='{{ service_acc_key }}' > account.json")
           sh("terraform init")
           sh("terraform apply -var=\"credentials_file=account.json\" -auto-approve")
         }

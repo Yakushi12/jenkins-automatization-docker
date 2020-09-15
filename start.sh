@@ -24,5 +24,5 @@ cd $workdir/Ansible/
 ansible-playbook playbooks/nexus_playbook.yml --vault-password-file="/Users/dzakharchenko/vpass" --tags="nexus-configure" --extra-vars "nexus_url=${nexus_ip}"
 ansible-playbook playbooks/jenkins_playbook.yml --vault-password-file="/Users/dzakharchenko/vpass" --tags="jenkins-configure" --extra-vars "jenkins_url=${jenkins_ip}"
 
-sleep 20
+sleep 30
 ansible-playbook playbooks/jenkins_playbook.yml --vault-password-file="/Users/dzakharchenko/vpass" --tags="build-job" --extra-vars "jenkins_url=${jenkins_ip}"
