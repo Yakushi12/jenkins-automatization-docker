@@ -1,5 +1,13 @@
 
 #instance_group
+variable "family" {
+  description = ""
+  type        = string
+}
+variable "project" {
+  description = "The ID of the project"
+  type        = string
+}
 variable "google_compute_name" {
   description = "Creates a unique name beginning with the specified prefix. Conflicts with name."
   type        = string
@@ -46,20 +54,20 @@ variable "zone" {
 }
 variable "google_compute_instance_image" {
   description = ""
-  type = string
- }
- variable "health_check_interval_sec" {
- description = "How often (in seconds) to send a health check. The default value is 5 seconds."
- type        = string
- }
- variable "backend_timeout_sec" {
- description = "How many seconds to wait for the backend before considering it a failed request. Default is 30 seconds. Valid range is [1, 86400]."
- type        = string
- }
+  type        = string
+}
+variable "health_check_interval_sec" {
+  description = "How often (in seconds) to send a health check. The default value is 5 seconds."
+  type        = string
+}
+variable "backend_timeout_sec" {
+  description = "How many seconds to wait for the backend before considering it a failed request. Default is 30 seconds. Valid range is [1, 86400]."
+  type        = string
+}
 variable "health_check_name" {
-type = string
+  type = string
 }
 variable "health_check_port" {
-description = "The TCP port number for the HTTPS health check request. The default value is 443."
-type        = string
+  description = "The TCP port number for the HTTPS health check request. The default value is 443."
+  type        = string
 }

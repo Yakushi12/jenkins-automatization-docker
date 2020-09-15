@@ -1,5 +1,5 @@
 #project
-project          = "gd-gcp-internship-kha-koh"
+project = "gd-gcp-internship-kha-koh"
 #credentials_file = "/Users/dzakharchenko/WhoAmI/gcp/service_acc_key.json"
 credentials_file = "~/.ssh/account.json"
 region           = "us-central1"
@@ -8,7 +8,7 @@ user             = "dzakharchenko"
 
 #secret_manager
 secret_pair = {
-  "mysql_pass_dz"   = "petpass"
+  "mysql_pass_dz" = "petpass"
   #"service_acc_key" = file("/Users/dzakharchenko/WhoAmI/gcp/service_acc_key.json")
 }
 
@@ -24,3 +24,5 @@ fw_target_tags  = ["fw-tcp"]
 instances_names = ["jenkins-petclinic-ci", "nexus-petclinic-ci"]
 images          = ["projects/gd-gcp-internship-kha-koh/global/images/family/petclinic-intern-jenkins", "projects/gd-gcp-internship-kha-koh/global/images/family/petclinic-intern-nexus"]
 #key_privat      = "/Users/dzakharchenko/.ssh/google_compute_engine.pub"
+template_service_account_scopes = ["userinfo-email", "compute-ro", "storage-ro", "cloud-platform"]
+template_machine_type           = "e2-medium"

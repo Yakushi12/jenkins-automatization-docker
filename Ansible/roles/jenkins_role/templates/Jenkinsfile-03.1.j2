@@ -1,8 +1,7 @@
 pipeline {
 
   environment {
-    // CRED = credentials('{{ jenkinsFile_id }}')
-    PASS = credentials('{{ valut_pass_id }}')
+    PASS = credentials('pass')
   }
 
   agent {
@@ -10,44 +9,39 @@ pipeline {
   }
 
   stages {
-    /*stage("gcloud auth") {
-      steps {
-        script {
-          sh("gcloud auth activate-service-account --key-file=\"${CRED}\"")
-        }
-      }
-    }*/
     stage("get vars") {
       steps {
         script {
           env.NEXUS_IP = sh (
-            script: 'gcloud secrets versions access "{{ version_id }}" --secret="{{ nexus_ip_secret }}"',
+            script: 'gcloud secrets versions access "latest" --secret="nexus_ip_dz"',
             returnStdout: true
-          ).trim()
+            ).trim()
         }
       }
     }
     stage("clone code") {
       steps {
         script {
-          git credentialsId: "{{ credentials }}",
-          branch: "{{ targetBranch }}",
-          url: "{{ gitCIurl }}";
+          git credentialsId: "GH_private_key",
+          branch: "main",
+          url: "git@github.com:Yakushi12/jenkins-automatization-docker.git";
+          env.GIT_COMMIT = sh(
+              returnStdout: true,
+              script: 'git log --pretty="%h" -1'
+              ).trim()
         }
       }
     }
     stage('Create Packer AMI') {
       steps {
-        script {
-          sh("gcloud secrets versions access latest --secret='{{ service_acc_key }}' > account.json")
-        }
         dir('Ansible_packer_job/'){
+          sh("gcloud secrets versions access latest --secret='service_acc_key' > account.json")
           sh """
           packer build \
           -var \'path=${PASS}\' \
           -var \'acc_key=account.json\' \
           -var \'nexus_url=${NEXUS_IP}\' \
-          -var \'commit_id=$GIT_COMMIT\' \
+          -var \'commit_id=${env.GIT_COMMIT}\' \
           pet_centos72.json
           """
         }

@@ -73,6 +73,10 @@ variable "google_compute_instance_image" {
   description = ""
   type        = string
 }
+variable "family" {
+  description = ""
+  type        = string
+}
 
 #mysql
 variable "mysql_name" {
@@ -113,6 +117,10 @@ variable "mysql_user_host" {
   description = "The host the user can connect from."
   type        = string
   default     = "%"
+}
+variable "mysql_user_name" {
+  description = "The name of mysql user."
+  type        = string
 }
 
 #http_load_balancer

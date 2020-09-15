@@ -25,10 +25,10 @@ template_service_account_scopes = ["userinfo-email", "compute-ro", "storage-ro",
 #google_compute_instance_image  = "projects/centos-cloud/global/images/family/centos-7"
 #google_compute_image_family    = "centos-7"
 #google_compute_image_project   = "centos-cloud"
-google_compute_instance_image   = "projects/gd-gcp-internship-kha-koh/global/images/family/petclinic-intern-website"
-google_compute_name             = "dz"
-health_check_name               = "petclinic"
-
+google_compute_instance_image = "projects/gd-gcp-internship-kha-koh/global/images/family/petclinic-intern-website"
+google_compute_name           = "dz"
+health_check_name             = "petclinic"
+family                        = "petclinic-intern-website"
 # LoadBalancer
 lb_name                   = "petclinic-lb"
 backend_balancing_mode    = "EXTERNAL"
@@ -38,11 +38,11 @@ health_check_interval_sec = "10"
 health_check_port         = "80"
 
 #Database
-mysql_name                = "petclinic-test1"
-mysql_database_version    = "MYSQL_5_7"
-mysql_region              = "us-central1"
-mysql_tier                = "db-g1-small"
-mysql_activation_policy   = "ALWAYS"
+mysql_name              = "petclinic-test1"
+mysql_database_version  = "MYSQL_5_7"
+mysql_region            = "us-central1"
+mysql_tier              = "db-g1-small"
+mysql_activation_policy = "ALWAYS"
 mysql_authorized_networks = [{
   name  = "All"
   value = "0.0.0.0/0"

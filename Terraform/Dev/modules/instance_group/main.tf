@@ -1,27 +1,32 @@
+data "google_compute_image" "petclinic" {
+  family  = var.family
+  project = var.project
+}
+
 #-------Create Template-------#
 resource "google_compute_instance_template" "default" {
-  name_prefix     = "${var.google_compute_name}-instance-"
-  tags            = var.fw_target_tags
-  machine_type    = var.template_machine_type
-  can_ip_forward  = var.template_can_ip_forward
+  name_prefix    = "${var.google_compute_name}-instance-"
+  tags           = var.fw_target_tags
+  machine_type   = var.template_machine_type
+  can_ip_forward = var.template_can_ip_forward
   scheduling {
     automatic_restart   = var.template_scheduling_automatic_restart
     on_host_maintenance = var.template_scheduling_on_host_maintenance
   }
   disk {
-    source_image  = var.google_compute_instance_image
-    #source_image = data.google_compute_image.centos.self_link
+    # source_image = var.google_compute_instance_image
+    source_image = data.google_compute_image.petclinic.self_link
   }
   network_interface {
-      network    = var.template_network
-      subnetwork = var.template_subnetwork
-      access_config { }
+    network    = var.template_network
+    subnetwork = var.template_subnetwork
+    access_config {}
   }
   service_account {
-      scopes = var.template_service_account_scopes
+    scopes = var.template_service_account_scopes
   }
   lifecycle {
-      create_before_destroy = true
+    create_before_destroy = true
   }
 }
 
@@ -31,7 +36,7 @@ resource "google_compute_health_check" "default" {
   timeout_sec        = var.backend_timeout_sec
   check_interval_sec = var.health_check_interval_sec
   http_health_check {
-    port             = var.health_check_port
+    port = var.health_check_port
     # port_specification = "USE_SERVING_PORT"
   }
 }
@@ -43,8 +48,8 @@ resource "google_compute_instance_group_manager" "instance_group_manager" {
   base_instance_name = "${var.google_compute_name}-pet"
   target_size        = "1"
   version {
-    instance_template  = google_compute_instance_template.default.id
-    name               = "${var.google_compute_name}-centos7"
+    instance_template = google_compute_instance_template.default.id
+    name              = "${var.google_compute_name}-centos7"
   }
   named_port {
     name = "http"
