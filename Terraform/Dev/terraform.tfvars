@@ -32,7 +32,7 @@ health_check_name             = "petclinic"
 family                        = "petclinic-intern-website"
 # LoadBalancer
 lb_name                   = "petclinic-lb"
-backend_balancing_mode    = "EXTERNAL"
+backend_balancing_mode    = "UTILIZATION"
 backend_capacity_scaler   = "1.0"
 backend_timeout_sec       = "10"
 health_check_interval_sec = "10"
