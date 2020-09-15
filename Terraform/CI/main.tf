@@ -9,10 +9,9 @@ provider "google" {
 module "secret_manager" {
   source = "./modules/secret_manager"
 
-  project = var.project
-  secret_pair = merge(var.secret_pair, {"service_acc_key" = file("/Users/dzakharchenko/WhoAmI/gcp/service_acc_key.json")})
+  project     = var.project
+  secret_pair = merge(var.secret_pair, { "service_acc_key" = file("/Users/dzakharchenko/WhoAmI/gcp/service_acc_key.json") })
 }
-
 
 #-------Create Networking-------#
 module "Networking" {
@@ -32,10 +31,10 @@ module "Networking" {
 module "instances" {
   source = "./modules/instances"
 
-  zone                            = var.zone
-  user                            = var.user
-  images                          = var.images
-  project                         = var.project
+  zone    = var.zone
+  user    = var.user
+  images  = var.images
+  project = var.project
   #key_privat                     = var.key_privat
   fw_target_tags                  = module.Networking.fw_self_link
   instances_names                 = var.instances_names

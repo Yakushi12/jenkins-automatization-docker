@@ -1,17 +1,17 @@
-resource "google_project_service" "secretmanager" {
-  service = "secretmanager.googleapis.com"
-  project = var.project
-}
+# resource "google_project_service" "secretmanager" {
+#   service = "secretmanager.googleapis.com"
+#   project = var.project
+# }
 
 resource "google_secret_manager_secret" "secret" {
-  project     = var.project
+  project = var.project
 
-  for_each    = var.secret_pair
-  secret_id   = each.key
+  for_each  = var.secret_pair
+  secret_id = each.key
   replication {
     automatic = true
   }
-  depends_on  = [google_project_service.secretmanager]
+  # depends_on = [google_project_service.secretmanager]
 }
 
 resource "google_secret_manager_secret_version" "secret-version" {

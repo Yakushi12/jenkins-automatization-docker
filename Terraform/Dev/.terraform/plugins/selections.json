@@ -2,5 +2,13 @@
   "registry.terraform.io/hashicorp/google": {
     "hash": "h1:kB+HiYcL3zJ2DlHNSnGLl54dkGyBLhyfx81bbZNf9UU=",
     "version": "3.38.0"
+  },
+  "registry.terraform.io/hashicorp/random": {
+    "hash": "h1:5JJ8VauQAalQG7+TJBlN1QNkDIUOAR1OJAgQeU93JPk=",
+    "version": "2.3.0"
+  },
+  "registry.terraform.io/terraform-providers/mysql": {
+    "hash": "h1:xCQLVKy18oE/Wo3IkK82GzRX+sEioMyPFUlRt28USiA=",
+    "version": "1.9.0"
   }
 }
