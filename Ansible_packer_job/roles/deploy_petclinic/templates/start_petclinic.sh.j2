@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 url=$(gcloud secrets versions access "{{version_id}}" --secret="{{ mysql_ip_secret }}")
-
+user=$(gcloud secrets versions access latest --secret="{{ mysql_user }}")
+pass=$(gcloud secrets versions access latest --secret="{{ mysql_pass }}")
 /usr/bin/java -jar '{{ petclinic_path }}' --spring.profiles.active='{{ profile }}' --spring.jpa.hibernate.ddl-auto=update --spring.datasource.url=jdbc:'{{ profile }}'://${url}:'{{ mysql_port }}'/'{{ mysql_db_name }}'?useSSL=false --spring.datasource.username='{{ mysql_user }}' --spring.datasource.password='{{ mysql_user }}' --spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL5Dialect
 
 # --spring.datasource.schema=classpath*:db/mysql/schema.sql --spring.datasource.data=classpath*:db/mysql/data.sql --spring.datasource.initialization-mode=always

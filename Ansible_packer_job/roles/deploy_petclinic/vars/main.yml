@@ -21,9 +21,9 @@ artifact_extension : jar
 build_version      : 2.3.1b.BUILD-SNAPSHOT
 repository_url     : http://{{ nexus_url }}:{{ nexus_port }}/{{ repo }}/
 version_id : 'latest'
-mysql_user : 'petclinic'
+mysql_user : 'mysql_user_name'
 mysql_port : '3306'
 mysql_db_name : 'petclinic'
 profile : 'mysql'
 mysql_ip_secret : mysql_ip_dz
-mysql_pass : DB_PASS
+mysql_pass : 'mysql_user_password'
