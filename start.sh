@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-workdir=$(pwd)/jenkins-automatization-docker
+workdir=$(pwd)
 
 key_path="$HOME/.ssh"
 bucket_name="tf-backup"
@@ -8,7 +8,7 @@ commit_id=$(echo $(git log --pretty="%h" -1))
 jenkins_ip=$(terraform output -json instances_ip | jq ".[0]")
 nexus_ip=$(terraform output -json instances_ip | jq ".[1]")
 
-gsutil mb -p gd-gcp-internship-kha-koh -c STANDARD -l US gs://$bucket_name
+#gsutil mb -p gd-gcp-internship-kha-koh -c STANDARD -l US gs://$bucket_name
 gcloud iam service-accounts keys create ${key_path}/account.json --iam-account 442661604643-compute@developer.gserviceaccount.com
 
 cd $workdir/Ansible
