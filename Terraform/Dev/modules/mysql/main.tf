@@ -8,16 +8,16 @@ resource "google_sql_database_instance" "mysql" {
   region           = var.mysql_region
 
   settings {
-    tier = var.mysql_tier
+    tier              = var.mysql_tier
     activation_policy = var.mysql_activation_policy
     ip_configuration {
-      ipv4_enabled    = local.ipv4_enabled
+      ipv4_enabled = local.ipv4_enabled
 
       dynamic "authorized_networks" {
         for_each = var.mysql_authorized_networks
         content {
-          name            = lookup(authorized_networks.value, "name", null)
-          value           = lookup(authorized_networks.value, "value", null)
+          name  = lookup(authorized_networks.value, "name", null)
+          value = lookup(authorized_networks.value, "value", null)
         }
       }
     }
@@ -36,7 +36,7 @@ module "google_compute_instance_secret" {
 
   project = var.project
   secret_pair = {
-    "mysql_ip_dz"         = google_sql_database_instance.mysql.ip_address
+    "mysql_ip_dz"         = totring(google_sql_database_instance.mysql.ip_address)
     "mysql_root_name"     = var.mysql_user_name
     "mysql_root_password" = var.mysql_user_password
   }
