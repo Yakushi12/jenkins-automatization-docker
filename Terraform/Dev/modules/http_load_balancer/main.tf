@@ -1,5 +1,5 @@
 locals {
-global_address_name = "http"
+  global_address_name = "http"
 }
 
 resource "google_compute_global_address" "default" {
@@ -38,12 +38,12 @@ resource "google_compute_backend_service" "default" {
     balancing_mode  = var.backend_balancing_mode
     capacity_scaler = var.backend_capacity_scaler
   }
-    name          = "backend-${var.lb_name}"
-    port_name     = local.global_address_name
-    protocol      = "HTTP"
-    timeout_sec   = var.backend_timeout_sec
-    health_checks = [var.google_compute_health_check]
-    depends_on    = [var.google_compute_instance_group_manager]
+  name          = "backend-${var.lb_name}"
+  port_name     = local.global_address_name
+  protocol      = "HTTP"
+  timeout_sec   = var.backend_timeout_sec
+  health_checks = [var.google_compute_health_check]
+  depends_on    = [var.google_compute_instance_group_manager]
 }
 
 resource "google_compute_firewall" "default" {

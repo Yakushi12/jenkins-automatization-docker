@@ -32,19 +32,20 @@ resource "google_sql_database_instance" "mysql" {
 }
 
 resource "random_password" "mysql_root_password" {
+  count            = 2
   length           = 5
   special          = true
   override_special = "_!"
 }
 
 resource "google_sql_user" "root_user" {
-  depends_on = [random_password.mysql_root_password]
+  depends_on = [random_password.mysql_root_password[0]]
   # count      = 1
   # name       = element(var.mysql_user_name, count.index)
   name     = var.mysql_user_name[0]
   host     = var.mysql_user_host
   instance = google_sql_database_instance.mysql.name
-  password = random_password.mysql_root_password.result #element(var.mysql_user_password, count.index)
+  password = random_password.mysql_root_password[0].result #element(var.mysql_user_password, count.index)
 }
 
 # resource "google_sql_database" "database" {
@@ -62,8 +63,9 @@ resource "mysql_database" "petclinic" {
 }
 
 resource "mysql_user" "petclinic" {
-  user = var.mysql_user_name[1]
-  host = var.mysql_user_host
+  user               = var.mysql_user_name[1]
+  host               = var.mysql_user_host
+  plaintext_password = random_password.mysql_root_password[1].result
 }
 
 resource "mysql_grant" "petclinic" {
@@ -71,11 +73,6 @@ resource "mysql_grant" "petclinic" {
   host       = mysql_user.petclinic.host
   database   = mysql_database.petclinic.name
   privileges = ["ALL"]
-}
-resource "mysql_user_password" "petclinic" {
-  user    = mysql_user.petclinic.user
-  pgp_key = "keybase:${google_sql_user.root_user.name}"
-  host    = var.mysql_user_host
 }
 
 module "google_compute_instance_secret" {

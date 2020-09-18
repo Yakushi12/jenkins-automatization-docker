@@ -1,8 +1,8 @@
 resource "google_compute_network" "vpc_network" {
-  name         = "${var.networking_name}-net"
-  description  = var.vpc_description
-  project      = var.project
-  routing_mode = var.routing_mode
+  name                            = "${var.networking_name}-net"
+  description                     = var.vpc_description
+  project                         = var.project
+  routing_mode                    = var.routing_mode
   auto_create_subnetworks         = false
   delete_default_routes_on_create = false
 }
@@ -26,5 +26,5 @@ resource "google_compute_firewall" "vpc_firewall" {
     ports    = var.fw_ports
   }
   source_ranges = ["0.0.0.0/0"]
-  target_tags = var.fw_target_tags
+  target_tags   = var.fw_target_tags
 }
