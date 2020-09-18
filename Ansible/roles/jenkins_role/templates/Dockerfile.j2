@@ -4,7 +4,6 @@ USER root
 ENV JENKINS_USER {{ jenkins_user }}
 ENV JENKINS_PASS {{ jenkins_pass }}
 ENV JAVA_OPTS -Djenkins.install.runSetupWizard=false
-# ENV CASC_JENKINS_CONFIG /var/jenkins_home/casc_configs/jenkins.yaml
 
 # install jenkins plugins
 COPY ./jenkins-plugins /usr/share/jenkins/jenkins-plugins
@@ -13,10 +12,7 @@ RUN while read i ; \
       do /usr/local/bin/install-plugins.sh $i ; \
     done < /usr/share/jenkins/jenkins-plugins
 
-#RUN /usr/local/bin/plugins.sh /usr/share/jenkins/jenkins-plugins
-
 COPY ./scripts/. /usr/share/jenkins/ref/init.groovy.d/
-#COPY /usr/local/bin/packer /usr/local/bin/packer
 
 RUN yum -y update && yum -y install \
     wget \
@@ -43,5 +39,4 @@ RUN yum -y install ansible
 ENV PATH=$PATH:/usr/local/bin/packer
 ENV PATH $PATH:/usr/local/gcloud/google-cloud-sdk/bin
 
-# COPY ./jenkins.yaml /var/jenkins_home/casc_configs/
 VOLUME /var/{{ docker_volume }}

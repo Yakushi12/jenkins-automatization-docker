@@ -1,2 +1,3 @@
+# file - nginx.conf.j2
 proxy_port   : 8080
 proxy_url    : 127.0.0.1

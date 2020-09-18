@@ -27,15 +27,6 @@
       dest: '{{ petclinic_path }}'
       mode: '744'
 
-      #defprecated-----
-  # - name: download petclinic
-  #   get_url:
-  #     url: '{{ petclinic_jar_url }}'
-  #     dest: '{{ petclinic_path }}'
-  #     username: '{{ user }}'
-  #     password: '{{ password }}'
-      #-----
-
   - name: Make petclinic service
     template:
       src: "{{ item.src }}"

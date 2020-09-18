@@ -3,7 +3,7 @@
   - name: Check Hostname
     command: hostname
     register: hname
-
+    
   - debug: msg="{{ hname.stdout }}"
 
   - name: yum Update
@@ -35,12 +35,6 @@
       name: docker-py
       state: present
 
-  # - name: Start & enable docker
-  #   service:
-  #     name: docker
-  #     state: started
-  #     enabled: yes
-
   - name: Start n enable docker
     systemd:
       name: docker
@@ -52,4 +46,5 @@
       name: '{{ user }}'
       groups: docker
       append: true
+
 ...

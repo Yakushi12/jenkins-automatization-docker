@@ -106,12 +106,12 @@
 
   - name: start nexus
     systemd: name=nexus state=started
-    # tags: nexus-install
+    tags: nexus-install
 
-  - name: sleep for 60 seconds and continue with play
+  - name: sleep for 30 seconds and continue with play
     wait_for:
-      timeout: 60
-    # tags: nexus-install
+      timeout: 30
+    tags: nexus-install
 
 #configuring Nexus
   - stat: path=/usr/local/sonatype-work/nexus3/admin.password
@@ -120,7 +120,6 @@
 
   - name: password actions
     block:
-
       - name: getting default nexus password
         shell: cat /usr/local/sonatype-work/nexus3/admin.password
         register: password
@@ -140,7 +139,6 @@
           status_code: 200,204
           force_basic_auth: yes
           body: "{{ admin_password }}"
-
     tags: nexus-configure
     when:  passwordpath.stat.exists
 
