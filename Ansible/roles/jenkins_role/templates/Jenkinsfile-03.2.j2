@@ -89,7 +89,7 @@ pipeline {
     }
     stage("downstream") {
       steps {
-        build(job: 'packer_build', parameters: [[$class: 'StringParameterValue', name: 'GIT_COMMIT', value: "${env.GIT_COMMIT}"]])
+        build(job: 'packer_build', parameters: [[$class: 'StringParameterValue', name: "GIT_COMMIT", value: "${env.GIT_COMMIT}"]])
       }
     }
   }

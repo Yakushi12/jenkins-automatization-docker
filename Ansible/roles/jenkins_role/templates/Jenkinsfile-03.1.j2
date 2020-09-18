@@ -29,6 +29,7 @@ pipeline {
             script: 'gcloud secrets versions access "latest" --secret="{{ nexus_ip_secret }}"',
             returnStdout: true
             ).trim();
+        }
       }
     }
     stage('Create Packer AMI') {

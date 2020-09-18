@@ -19,6 +19,7 @@ nexus_ip=$(terraform output -json instances_ip | jq ".[1]")
 #sed -i '' "s/nexus_url.*/nexus_url     : $nexus_ip/" $workdir/Ansible/group_vars/All.yml
 #sed -i '' "s/jenkins_url.*/jenkins_url   : $jenkins_ip/" $workdir/Ansible/group_vars/All.yml
 
+sleep 30
 cd $workdir/Ansible/
 # cd /Users/dzakharchenko/WhoAmI/Study/GIT/Repos/jenkins-automatization-docker
 ansible-playbook playbooks/nexus_playbook.yml --vault-password-file="/Users/dzakharchenko/vpass" --tags="nexus-configure" --extra-vars "nexus_url=${nexus_ip}"
