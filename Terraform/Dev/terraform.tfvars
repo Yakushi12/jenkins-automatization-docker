@@ -24,10 +24,10 @@ template_service_account_scopes = ["userinfo-email", "compute-ro", "storage-ro",
 # LoadBalancer
 lb_name                   = "petclinic-lb"
 health_check_port         = "80"
-backend_timeout_sec       = "10"
+backend_timeout_sec       = "30"
 backend_balancing_mode    = "UTILIZATION"
 backend_capacity_scaler   = "1.0"
-health_check_interval_sec = "10"
+health_check_interval_sec = "30"
 
 #Database
 mysql_name              = "petclinic-test2"
