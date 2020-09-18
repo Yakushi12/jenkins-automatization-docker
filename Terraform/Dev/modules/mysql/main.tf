@@ -81,9 +81,9 @@ module "google_compute_instance_secret" {
   project = var.project
   secret_pair = {
     "mysql_ip_dz"         = google_sql_database_instance.mysql.public_ip_address
-    "mysql_root_name"     = google_sql_user.root_user.name                   #var.mysql_user_name[0]
-    "mysql_root_password" = google_sql_user.root_user.password               #var.mysql_user_password[0]
-    "mysql_user_name"     = mysql_user.petclinic.user                        #var.mysql_user_name[1]
-    "mysql_user_password" = mysql_user_password.petclinic.encrypted_password #| base64 --decode | keybase pgp decrypt #var.mysql_user_password[1]
+    "mysql_root_name"     = google_sql_user.root_user.name     #var.mysql_user_name[0]
+    "mysql_root_password" = google_sql_user.root_user.password #var.mysql_user_password[0]
+    "mysql_user_name"     = mysql_user.petclinic.user          #var.mysql_user_name[1]
+    "mysql_user_password" = mysql_user.petclinic.password      #| base64 --decode | keybase pgp decrypt #var.mysql_user_password[1]
   }
 }
