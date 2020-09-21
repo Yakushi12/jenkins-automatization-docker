@@ -8,7 +8,7 @@ data "github_repository" "test-repo" {
 
 resource "github_repository_webhook" "foo" {
   repository = data.github_repository.test-repo.name
-  active     = false
+  active     = true
   events     = var.events
 
   configuration {

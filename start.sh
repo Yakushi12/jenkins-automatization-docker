@@ -22,8 +22,10 @@ nexus_ip=$(terraform output -json instances_ip | jq -r ".[1]")
 sleep 30
 cd $workdir/Ansible/
 # cd /Users/dzakharchenko/WhoAmI/Study/GIT/Repos/jenkins-automatization-docker
-ansible-playbook playbooks/nexus_playbook.yml --vault-password-file="/Users/dzakharchenko/vpass" --tags="nexus-configure" --extra-vars "nexus_url=${nexus_ip}"
-ansible-playbook playbooks/jenkins_playbook.yml --vault-password-file="/Users/dzakharchenko/vpass" --tags="jenkins-configure" --extra-vars "jenkins_url=${jenkins_ip}"
+ansible-playbook playbooks/nexus_playbook.yml --vault-password-file="/Users/dzakharchenko/vpass" --tags="nexus-configure" --extra-vars "nexus_url=$nexus_ip"
+ansible-playbook playbooks/jenkins_playbook.yml --vault-password-file="/Users/dzakharchenko/vpass" --tags="jenkins-configure" --extra-vars "jenkins_url=$jenkins_ip"
 
 sleep 30
-ansible-playbook playbooks/jenkins_playbook.yml --vault-password-file="/Users/dzakharchenko/vpass" --tags="build-job" --extra-vars "jenkins_url=${jenkins_ip}"
+cd $workdir/Terraform/GitHub
+terraform apply -var "jenkins_ip=$jenkins_ip" -auto-approve
+# ansible-playbook playbooks/jenkins_playbook.yml --vault-password-file="/Users/dzakharchenko/vpass" --tags="build-job" --extra-vars "jenkins_url=${jenkins_ip}"
