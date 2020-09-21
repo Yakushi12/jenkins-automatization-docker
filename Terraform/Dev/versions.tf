@@ -1,9 +1,19 @@
 terraform {
-  required_version = ">= 0.12.29"
+  required_version = ">= 0.13"
 
   required_providers {
-    google = ">= 3.33.0"
-    #google-beta = ">= 3.33.0"
+    google = {
+      source  = "hashicorp/google"
+      version = ">= 3.38.0"
+    }
+    mysql = {
+      source  = "terraform-providers/mysql"
+      version = ">= 1.9.0"
+    }
+    random = {
+      source  = "hashicorp/random"
+      version = ">= 2.3.0"
+    }
   }
 
   backend "gcs" {

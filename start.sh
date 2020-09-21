@@ -14,8 +14,8 @@ packer build -var 'path=/Users/dzakharchenko/vpass' -var "acc_key=$HOME/.ssh/acc
 
 cd $workdir/Terraform/CI
 terraform apply -auto-approve
-jenkins_ip=$(terraform output -json instances_ip | jq ".[0]")
-nexus_ip=$(terraform output -json instances_ip | jq ".[1]")
+jenkins_ip=$(terraform output -json instances_ip | jq -r ".[0]")
+nexus_ip=$(terraform output -json instances_ip | jq -r ".[1]")
 #sed -i '' "s/nexus_url.*/nexus_url     : $nexus_ip/" $workdir/Ansible/group_vars/All.yml
 #sed -i '' "s/jenkins_url.*/jenkins_url   : $jenkins_ip/" $workdir/Ansible/group_vars/All.yml
 
