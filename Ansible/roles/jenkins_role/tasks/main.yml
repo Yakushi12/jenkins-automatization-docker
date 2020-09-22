@@ -71,10 +71,10 @@
     tags: jenkins-configure
 
   - name: Build image n run container
-    tags: jenkins-configure
     shell: |
       docker build -t {{ docker_image_name }} ./Docker/.
       docker run -d --restart unless-stopped --privileged --name {{ docker_container_name }} -p 0.0.0.0:8080:8080 -p 0.0.0.0:50000:50000 -v /home/{{ ansible_user }}/{{ docker_volume }}:/var/{{ docker_volume }} {{ docker_image_name }}
+    tags: jenkins-configure
 
   - name: Change Jenkins-home ownership, group and permissions
     file:

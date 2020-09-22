@@ -27,7 +27,7 @@ cd $workdir/Ansible/
 ansible-playbook playbooks/nexus_playbook.yml --vault-password-file="/Users/dzakharchenko/vpass" --tags="nexus-configure" --extra-vars "nexus_url=$nexus_ip"
 ansible-playbook playbooks/jenkins_playbook.yml --vault-password-file="/Users/dzakharchenko/vpass" --tags="jenkins-configure" --extra-vars "jenkins_url=$jenkins_ip"
 
-sleep 30
+sleep 25
 cd $workdir/Terraform/GitHub
 terraform init
 terraform apply -var "jenkins_ip=$jenkins_ip" -auto-approve
