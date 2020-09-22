@@ -36,6 +36,6 @@ nexus_ip_secret                   : "nexus_ip_dz"
 gitCIurl                          : git@github.com:Yakushi12/jenkins-automatization-docker.git
 gitUrl                            : git@github.com:Yakushi12/spring-petclinic.git
 branch                            : '*/main'
-targetBranch                      : main
+targetBranch                      : fix
 service_acc_key                   : service_acc_key
 jenkins_home                      : /var/lib/jenkins
