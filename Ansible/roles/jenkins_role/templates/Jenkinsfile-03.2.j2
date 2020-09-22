@@ -19,7 +19,7 @@ pipeline {
       steps {
         script {
           git credentialsId: "{{ credentials }}",
-          branch: "{{ targetBranch }}",
+          branch: "{{ targetBranch1 }}",
           url: "{{ gitUrl }}";
         }
       }

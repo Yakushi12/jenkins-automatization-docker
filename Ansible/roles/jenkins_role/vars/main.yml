@@ -37,5 +37,6 @@ gitCIurl                          : git@github.com:Yakushi12/jenkins-automatizat
 gitUrl                            : git@github.com:Yakushi12/spring-petclinic.git
 branch                            : '*/main'
 targetBranch                      : fix
+targetBranch1                     : main
 service_acc_key                   : service_acc_key
 jenkins_home                      : /var/lib/jenkins
