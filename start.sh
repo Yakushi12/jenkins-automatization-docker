@@ -24,14 +24,10 @@ nexus_ip=$(terraform output -json instances_ip | jq -r ".[1]")
 #sed -i '' "s/nexus_url.*/nexus_url     : $nexus_ip/" $workdir/Ansible/group_vars/All.yml
 #sed -i '' "s/jenkins_url.*/jenkins_url   : $jenkins_ip/" $workdir/Ansible/group_vars/All.yml
 
-nc -zv $jenkins_ip 22 -L 1 -w 1 -i 1
-status=$?
-if test $status -eq 0
-then
-  echo nice
-else
-  echo bad
-fi
+until [ `nc -z -G 3 $jenkins_ip 22  &> /dev/null || echo $?` -eq 0 ]; do
+  printf '.'
+  sleep 3
+done
 cd $workdir/Ansible/
 ansible-playbook playbooks/nexus_playbook.yml --vault-password-file="/Users/dzakharchenko/vpass" --tags="nexus-configure" --extra-vars "nexus_url=$nexus_ip"
 ansible-playbook playbooks/jenkins_playbook.yml --vault-password-file="/Users/dzakharchenko/vpass" --tags="jenkins-configure" --extra-vars "jenkins_url=$jenkins_ip"
