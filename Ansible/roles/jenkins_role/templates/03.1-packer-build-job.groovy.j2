@@ -13,6 +13,9 @@ pipelineJob('packer_build') {
       sandbox(true)
     }
   }
+  parameters {
+    stringParam('GIT_COMMIT', '', '')
+  }
 }
 """;
 def jobManagement = new JenkinsJobManagement(System.out, [:], new File('.'))

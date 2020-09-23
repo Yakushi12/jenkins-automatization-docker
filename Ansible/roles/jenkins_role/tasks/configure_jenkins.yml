@@ -1,31 +1,14 @@
 ---
 
-  - name: Creates Docker directory
-    file:
-      path: ./Docker/scripts/
-      state: directory
-      owner: '{{ ansible_user }}'
-      group: '{{ ansible_user }}'
-      directory_mode: yes
-
-  - name: Copy jenkins plugins file
-    copy:
-      src: "{{ item.src }}"
-      dest: "{{ item.dest }}"
-      owner: '{{ ansible_user }}'
-      group: '{{ ansible_user }}'
-      mode: '0744'
-    with_items:
-      - { src: 'jenkins-plugins', dest: './Docker/jenkins-plugins' }
-
-  - name: Set templates to Docker directory
+  - name: Set init scripts to Docker directory
     template:
       src: "{{ item.src }}"
       dest: "{{ item.dest }}"
       owner: '{{ ansible_user }}'
       group: '{{ ansible_user }}'
+      mode: '0744'
+
     with_items:
-      - { src: 'Dockerfile.j2', dest: './Docker/Dockerfile' }
       - { src: '00-basic-security.groovy.j2', dest: './Docker/scripts/00-basic-security.groovy' }
       - { src: '01-global-settings.groovy.j2', dest: './Docker/scripts/01-global-settings.groovy' }
       - { src: '02-add-credentials.groovy.j2', dest: './Docker/scripts/02-add-credentials.groovy' }
@@ -37,11 +20,11 @@
       - { src: 'Jenkinsfile-03.3.j2', dest: './Docker/scripts/Jenkinsfile-03.3' }
       - { src: '03.3-terraform-job.groovy.j2', dest: './Docker/scripts/03.3-terraform-job.groovy' }
 
-  - name: Build image n run container
+  - name: Run docker container
     shell: |
-      docker build -t {{ docker_image_name }} ./Docker/.
       docker run -d --restart unless-stopped --privileged --name {{ docker_container_name }} -p 0.0.0.0:8080:8080 -p 0.0.0.0:50000:50000 -v /home/{{ ansible_user }}/{{ docker_volume }}:/var/{{ docker_volume }} {{ docker_image_name }}
-
+      docker cp Docker/scripts/. {{ docker_container_name }}:/usr/share/jenkins/ref/init.groovy.d/
+      docker restart {{ docker_container_name }}
   - name: Change Jenkins-home ownership, group and permissions
     file:
       path: /home/{{ ansible_user }}/{{ docker_volume }}

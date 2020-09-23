@@ -12,4 +12,26 @@
       name: firewalld
       state: reloaded
 
+  - name: Creates Docker directory
+    file:
+      path: ./Docker/scripts/
+      state: directory
+      owner: '{{ ansible_user }}'
+      group: '{{ ansible_user }}'
+      directory_mode: yes
+
+  - name: Copy jenkins plugins file
+    template:
+      src: "{{ item.src }}"
+      dest: "{{ item.dest }}"
+      owner: '{{ ansible_user }}'
+      group: '{{ ansible_user }}'
+      mode: '0744'
+    with_items:
+      - { src: 'jenkins-plugins', dest: './Docker/jenkins-plugins' }
+      - { src: 'Dockerfile.j2', dest: './Docker/Dockerfile' }
+
+  - name: Build docker image
+    shell: docker build -t {{ docker_image_name }} ./Docker/.
+
 ...

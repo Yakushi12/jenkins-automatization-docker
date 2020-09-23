@@ -9,9 +9,9 @@
     tags: always
 
   - import_tasks: install_jenkins.yml
-    tags: install-jenkins
+    tags: jenkins-install
 
   - import_tasks: configure_jenkins.yml
-    tags: configure-jenkins
+    tags: jenkins-configure
 
 ...
