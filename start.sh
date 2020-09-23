@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 SECONDS=0
+set -o errexit
+set -o nounset
+set -o pipefail
 
 workdir=$(pwd)
 key_path="$HOME/.ssh"
@@ -21,17 +24,29 @@ nexus_ip=$(terraform output -json instances_ip | jq -r ".[1]")
 #sed -i '' "s/nexus_url.*/nexus_url     : $nexus_ip/" $workdir/Ansible/group_vars/All.yml
 #sed -i '' "s/jenkins_url.*/jenkins_url   : $jenkins_ip/" $workdir/Ansible/group_vars/All.yml
 
-sleep 30
+nc -zv $jenkins_ip 22 -L 1 -w 1 -i 1
+status=$?
+if test $status -eq 0
+then
+  echo nice
+else
+  echo bad
+fi
 cd $workdir/Ansible/
-# cd /Users/dzakharchenko/WhoAmI/Study/GIT/Repos/jenkins-automatization-docker
 ansible-playbook playbooks/nexus_playbook.yml --vault-password-file="/Users/dzakharchenko/vpass" --tags="nexus-configure" --extra-vars "nexus_url=$nexus_ip"
 ansible-playbook playbooks/jenkins_playbook.yml --vault-password-file="/Users/dzakharchenko/vpass" --tags="jenkins-configure" --extra-vars "jenkins_url=$jenkins_ip"
 
-sleep 25
+until $(curl --output /dev/null --silent --head --fail http://$jenkins_ip:8080); do
+  printf '.'
+  sleep 3
+done
 cd $workdir/Terraform/GitHub
 terraform init
 terraform apply -var "jenkins_ip=$jenkins_ip" -auto-approve
-# ansible-playbook playbooks/jenkins_playbook.yml --vault-password-file="/Users/dzakharchenko/vpass" --tags="build-job" --extra-vars "jenkins_url=${jenkins_ip}"
 
 duration=$SECONDS
-echo "$(($duration / 60)):$(($duration % 60))"
+echo "Script execution time: $(($duration / 60)):$(($duration % 60))"
+
+# while [[ $(curl -s -w "%{http_code}" http://server -o /dev/null) != "200" ]]; do
+#   sleep 5
+# done

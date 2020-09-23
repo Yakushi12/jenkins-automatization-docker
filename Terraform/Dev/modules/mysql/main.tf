@@ -10,7 +10,7 @@ locals {
 }
 
 resource "google_sql_database_instance" "mysql" {
-  name             = "dz-${var.mysql_name}"
+  # name             = "dz-${var.mysql_name}"
   database_version = var.mysql_database_version
   region           = var.mysql_region
 

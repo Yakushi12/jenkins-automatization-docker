@@ -3,7 +3,7 @@ docker_volume                     : jenkins_home
 docker_image_name                 : jenkins-docker
 docker_container_name             : jenkins
 # job - Build Jenkins job, file - 03.2-deploy-to-nexus-job.groovy.j2
-jobName                           : deploy_nexus
+jobName                           : 'pack and deploy artefact'
 jenkins_token                     : 11517e4ae0308056e4ea15d6d179f0f7f9
 # file - 00-basic-security.groovy.j2
 jenkins_user                      : jenkins

@@ -1,0 +1,68 @@
+---
+
+  - stat: path=/usr/local/sonatype-work/nexus3/admin.password
+    register: passwordpath
+
+  - name: password actions
+    block:
+      - name: getting default nexus password
+        shell: cat /usr/local/sonatype-work/nexus3/admin.password
+        register: password
+
+      - name: show adm password
+        debug:
+            msg: "{{ password.stdout }}"
+
+      - name: updating admin password
+        uri:
+          url: "http://{{ nexus_url }}:8081/service/rest/beta/security/users/admin/change-password"
+          user: "admin"
+          password: "{{ password.stdout }}"
+          headers:
+            Content-Type: "text/plain"
+          method: PUT
+          status_code: 200,204
+          force_basic_auth: yes
+          body: "{{ admin_password }}"
+    when:  passwordpath.stat.exists
+
+  - name: disabling anonymous access
+    uri:
+      url: "http://{{ nexus_url }}:8081/service/rest/beta/security/anonymous"
+      user: "admin"
+      password: "{{ admin_password }}"
+      body_format: json
+      headers:
+        Content-Type: "application/json"
+        Accept: "application/json"
+      method: PUT
+      status_code: 200,204
+      force_basic_auth: yes
+      body: {
+          "enabled": false
+            }
+
+  - name: Adding user Jenkins
+    ignore_errors: yes
+    uri:
+      url: "http://{{ nexus_url }}:8081/service/rest/beta/security/users"
+      user: "admin"
+      password: "{{ admin_password }}"
+      body_format: json
+      headers:
+        Content-Type: "application/json"
+        Accept: "application/json"
+      method: POST
+      status_code: 200,204
+      force_basic_auth: yes
+      body: {
+        "userId":"jenkins",
+        "firstName":"jenkins",
+        "lastName":"slave",
+        "emailAddress":"dzakharchenko@griddynamics.com",
+        "password":"jenkins",
+        "status":"active",
+        "roles":["nx-admin"]
+           }
+
+...

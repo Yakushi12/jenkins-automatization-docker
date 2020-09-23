@@ -8,6 +8,10 @@ pipeline {
     label "master"
   }
 
+  options {
+      ansiColor('xterm')
+  }
+  
   parameters {
     string(defaultValue: "", description: "", name: "GIT_COMMIT")
   }
