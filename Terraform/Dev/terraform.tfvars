@@ -30,7 +30,7 @@ backend_capacity_scaler   = "1.0"
 health_check_interval_sec = "30"
 
 #Database
-mysql_name              = "petclinic-test4"
+mysql_name              = "petclinic-test"
 mysql_tier              = "db-g1-small"
 mysql_region            = "us-central1"
 mysql_database_version  = "MYSQL_5_7"
