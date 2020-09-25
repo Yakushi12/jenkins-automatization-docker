@@ -24,6 +24,5 @@ mysql_user          : 'mysql_user_name'
 mysql_pass          : 'mysql_user_password'
 version_id          : 'latest'
 profile             : mysql
-
 mysql_port          : 3306
 mysql_db_name       : petclinic

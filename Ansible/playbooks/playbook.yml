@@ -1,22 +1,21 @@
 ---
-# - hosts: localhost
-#   connection: local
-#   gather_facts: no
-#   tags: localhost
-#   tasks:
-#
-#     - name: Find out playbooks path
-#       shell: pwd
-#       register: path
-#
-#     - debug: msg="{{ path.stdout }}"
-#
-#     - name: Generate ssh key pair
-#       openssh_keypair:
-#         path: "{{ path.stdout }}/{{ ssh_key }}"
-#         type: rsa
-#         size: 2048
-#         state: present
-#         force: yes
+- hosts: localhost
+  connection: local
+  gather_facts: no
+  tasks:
+
+    # - name: Find out playbooks path
+    #   shell: echo "{{ lookup('env', 'PWD') }}"
+    #   register: path
+    #
+    # - debug: msg="{{ path.stdout }}"
+    #
+    # - name: Generate ssh key pair
+    #   openssh_keypair:
+    #     path: "{{ path.stdout }}/files/{{ ssh_key }}"
+    #     type: rsa
+    #     size: 2048
+    #     state: present
+    #     force: yes
 
 ...

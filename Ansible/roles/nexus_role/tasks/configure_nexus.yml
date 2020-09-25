@@ -42,27 +42,4 @@
           "enabled": false
             }
 
-  - name: Adding user Jenkins
-    ignore_errors: yes
-    uri:
-      url: "http://{{ nexus_url }}:8081/service/rest/beta/security/users"
-      user: "admin"
-      password: "{{ admin_password }}"
-      body_format: json
-      headers:
-        Content-Type: "application/json"
-        Accept: "application/json"
-      method: POST
-      status_code: 200,204
-      force_basic_auth: yes
-      body: {
-        "userId":"jenkins",
-        "firstName":"jenkins",
-        "lastName":"slave",
-        "emailAddress":"dzakharchenko@griddynamics.com",
-        "password":"jenkins",
-        "status":"active",
-        "roles":["nx-admin"]
-           }
-
 ...

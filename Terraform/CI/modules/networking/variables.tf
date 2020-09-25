@@ -1,4 +1,12 @@
 #project
+variable "networking_name" {
+  type        = string
+  description = "Name of the resource"
+}
+variable "vpc_description" {
+  description = "An optional description of this resource. The resource must be recreated to modify this field."
+  type        = string
+}
 variable "project" {
   description = "The ID of the project"
   type        = string
@@ -8,24 +16,16 @@ variable "routing_mode" {
   type        = string
   default     = "REGIONAL"
 }
-variable "vpc_description" {
-  description = "An optional description of this resource. The resource must be recreated to modify this field."
-  type        = string
+variable "ip_cidr_range" {
+  type = string
 }
 variable "region" {
   description = "Default project region"
   type        = string
 }
-variable "fw_ports" {
-  type = list
-}
 variable "fw_target_tags" {
   type = list
 }
-variable "networking_name" {
-  type        = string
-  description = "Name of the resource"
-}
-variable "ip_cidr_range" {
-  type = string
+variable "fw_ports" {
+  type = list
 }

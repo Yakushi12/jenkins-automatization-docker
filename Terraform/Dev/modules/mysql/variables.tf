@@ -28,10 +28,6 @@ variable "mysql_authorized_networks" {
     }
   ]
 }
-variable "mysql_user_password" {
-  description = "The password for the user. Can be updated."
-  type        = list(string)
-}
 variable "mysql_user_host" {
   description = "The host the user can connect from."
   type        = string

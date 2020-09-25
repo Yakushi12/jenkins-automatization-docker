@@ -28,10 +28,6 @@ variable "template_subnetwork" {
   description = "The name of the subnetwork to attach this interface to. The subnetwork must exist in the same region this instance will be created in."
   type        = string
 }
-variable "user" {
-  description = "User"
-  type        = string
-}
 variable "project" {
   description = "The ID of the project"
   type        = string

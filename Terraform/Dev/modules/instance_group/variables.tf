@@ -52,10 +52,6 @@ variable "zone" {
   description = "Default project zone"
   type        = string
 }
-variable "google_compute_instance_image" {
-  description = ""
-  type        = string
-}
 variable "health_check_interval_sec" {
   description = "How often (in seconds) to send a health check. The default value is 5 seconds."
   type        = string

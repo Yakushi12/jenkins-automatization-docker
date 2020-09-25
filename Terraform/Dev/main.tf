@@ -12,19 +12,18 @@ module "mysql" {
   project = var.project
 
   #user
-  mysql_user_host     = var.mysql_user_host
-  mysql_user_name     = var.mysql_user_name
-  mysql_user_password = var.mysql_user_password
+  mysql_user_host = var.mysql_user_host
+  mysql_user_name = var.mysql_user_name
   #db
   mysql_name                = var.mysql_name
   mysql_tier                = var.mysql_tier
   mysql_region              = var.mysql_region
   mysql_db_name             = var.mysql_db_name
+  mysql_charset             = var.mysql_charset
+  mysql_collation           = var.mysql_collation
   mysql_database_version    = var.mysql_database_version
   mysql_activation_policy   = var.mysql_activation_policy
   mysql_authorized_networks = var.mysql_authorized_networks
-  mysql_charset             = var.mysql_charset
-  mysql_collation           = var.mysql_collation
 }
 
 #-------Create Instance Group-------#
@@ -45,7 +44,6 @@ module "instance_group" {
   template_machine_type                   = var.template_machine_type
   template_can_ip_forward                 = var.template_can_ip_forward
   health_check_interval_sec               = var.health_check_interval_sec
-  google_compute_instance_image           = var.google_compute_instance_image
   template_service_account_scopes         = var.template_service_account_scopes
   template_scheduling_automatic_restart   = var.template_scheduling_automatic_restart
   template_scheduling_on_host_maintenance = var.template_scheduling_on_host_maintenance

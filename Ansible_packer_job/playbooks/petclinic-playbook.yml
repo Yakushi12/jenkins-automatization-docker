@@ -4,7 +4,6 @@
   become: yes
   become_method: sudo
   gather_facts: no
-  tags: Web
   roles:
     - { role: pre_req }
     - { role: java_role }

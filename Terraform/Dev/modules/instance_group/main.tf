@@ -14,7 +14,6 @@ resource "google_compute_instance_template" "default" {
     on_host_maintenance = var.template_scheduling_on_host_maintenance
   }
   disk {
-    # source_image = var.google_compute_instance_image
     source_image = data.google_compute_image.petclinic.self_link
   }
   network_interface {
@@ -37,7 +36,6 @@ resource "google_compute_health_check" "default" {
   check_interval_sec = var.health_check_interval_sec
   http_health_check {
     port = var.health_check_port
-    # port_specification = "USE_SERVING_PORT"
   }
 }
 

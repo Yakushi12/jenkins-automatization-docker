@@ -5,7 +5,7 @@
     register: hname
 
   - debug: msg="{{ hname.stdout }}"
-  
+
   - name: yum Update
     yum: update_cache=yes
 
@@ -39,21 +39,6 @@
       path: /usr/bin/{{ java_dir }}/bin/java
       link: /usr/bin/java
       priority: 100
-
-  # - name: Set JAVA_HOME and add to PATH
-  #   shell: |
-  #     export JAVA_HOME="/usr/bin/{{ java_dir }}"
-  #     export PATH="$PATH:$JAVA_HOME/bin"
-  #     echo "JAVA_HOME=$JAVA_HOME" >> /etc/environment
-  #     source /etc/environment
-
-  #     alternatives --install /usr/bin/java java /usr/bin/{{ java_dir }}/bin/java 100
-  #     echo "1" | alternatives --config java
-  #     # alternatives --install /usr/bin/jar jar /usr/bin/java/{{ java_dir }}/bin/jar 2
-  #     # alternatives --install /usr/bin/javac javac /usr/bin/java/{{ java_dir }}/bin/javac 2
-  #     # alternatives --set jar /usr/bin/java/{{ java_dir }}/bin/jar
-  #     # alternatives --set javac /usr/bin/java/{{ java_dir }}/bin/javac
-  #     export JRE_HOME=/usr/bin/java/{{ java_dir }}/jre
 
   - shell: java -version && echo -e "\n$JAVA_HOME"
     register: java_env

@@ -15,10 +15,6 @@ variable "zone" {
   description = "Default project zone"
   type        = string
 }
-variable "user" {
-  description = "User"
-  type        = string
-}
 
 #instance_group
 variable "google_compute_name" {
@@ -29,10 +25,6 @@ variable "fw_target_tags" {
   description = "Tags to attach to the instance."
   type        = list
   default     = ["dz-fw-tcp"]
-}
-variable "template_startup_script" {
-  description = "An alternative to using the startup-script metadata key, mostly to match the compute_instance resource. This replaces the startup-script metadata key on the created instance and thus the two mechanisms are not allowed to be used simultaneously."
-  type        = string
 }
 variable "template_machine_type" {
   description = "Tags to attach to the instance."
@@ -60,18 +52,10 @@ variable "template_subnetwork" {
   description = "The name of the subnetwork to attach this interface to. The subnetwork must exist in the same region this instance will be created in."
   type        = string
 }
-variable "template_lifecycle_create_before_destroy" {
-  description = "By default, when Terraform must make a change to a resource argument that cannot be updated in-place due to remote API limitations, Terraform will instead destroy the existing object and then create a new replacement object with the new configured arguments."
-  default     = true
-}
 variable "template_service_account_scopes" {
   description = "A list of service scopes."
   type        = list
   default     = ["userinfo-email", "compute-ro", "storage-ro"]
-}
-variable "google_compute_instance_image" {
-  description = ""
-  type        = string
 }
 variable "family" {
   description = ""
@@ -83,16 +67,16 @@ variable "mysql_name" {
   description = "The name of the instance."
   type        = string
 }
+variable "mysql_tier" {
+  description = "The machine type to use."
+  type        = string
+}
 variable "mysql_database_version" {
   description = "Version of using database."
   type        = string
 }
 variable "mysql_region" {
   description = "The region the instance will sit in."
-  type        = string
-}
-variable "mysql_tier" {
-  description = "The machine type to use."
   type        = string
 }
 variable "mysql_activation_policy" {
@@ -108,10 +92,6 @@ variable "mysql_authorized_networks" {
       value = "0.0.0.0/0"
     }
   ]
-}
-variable "mysql_user_password" {
-  description = "The password for the user. Can be updated."
-  type        = list(string)
 }
 variable "mysql_user_host" {
   description = "The host the user can connect from."

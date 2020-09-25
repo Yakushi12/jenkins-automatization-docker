@@ -17,14 +17,14 @@ module "secret_manager" {
 module "Networking" {
   source = "./modules/networking"
 
-  project         = var.project
   region          = var.region
-  networking_name = var.networking_name
-  vpc_description = var.vpc_description
+  project         = var.project
+  fw_ports        = var.fw_ports
   routing_mode    = var.routing_mode
   ip_cidr_range   = var.ip_cidr_range
-  fw_ports        = var.fw_ports
   fw_target_tags  = var.fw_target_tags
+  networking_name = var.networking_name
+  vpc_description = var.vpc_description
 }
 
 # -------Create CI Env-------#
@@ -32,7 +32,6 @@ module "instances" {
   source = "./modules/instances"
 
   zone    = var.zone
-  user    = var.user
   images  = var.images
   project = var.project
   #key_privat                     = var.key_privat

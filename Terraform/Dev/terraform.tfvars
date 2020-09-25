@@ -1,47 +1,41 @@
 #project
-project = "gd-gcp-internship-kha-koh"
-#credentials_file = "/Users/dzakharchenko/WhoAmI/gcp/service_acc_key.json"
 credentials_file = "account.json"
+project          = "gd-gcp-internship-kha-koh"
 region           = "us-central1"
 zone             = "us-central1-c"
-user             = "dzakharchenko"
 
 #instance_group
 family                          = "petclinic-intern-website"
 fw_target_tags                  = ["fw-tcp"]
-template_network                = "intern-infra-net" #"dzakharchenko-network"
+template_network                = "intern-infra-net"
 health_check_name               = "petclinic"
+health_check_port               = "80"
 google_compute_name             = "dz"
-template_subnetwork             = "intern-infra-subnet" #"dzakharchenko-subnet"
+template_subnetwork             = "intern-infra-subnet"
 template_machine_type           = "n1-standard-1"
-template_startup_script         = "scripts/petclinic-nginx.sh"
-google_compute_instance_image   = "projects/gd-gcp-internship-kha-koh/global/images/family/petclinic-intern-website"
+health_check_interval_sec       = "30"
 template_service_account_scopes = ["userinfo-email", "compute-ro", "storage-ro", "cloud-platform"]
-#google_compute_instance_image  = "projects/centos-cloud/global/images/family/centos-7"
-#google_compute_image_family    = "centos-7"
-#google_compute_image_project   = "centos-cloud"
 
 # LoadBalancer
-lb_name                   = "petclinic-lb"
-health_check_port         = "80"
-backend_timeout_sec       = "30"
-backend_balancing_mode    = "UTILIZATION"
-backend_capacity_scaler   = "1.0"
-health_check_interval_sec = "30"
+lb_name                 = "petclinic-lb"
+backend_timeout_sec     = "30"
+backend_balancing_mode  = "UTILIZATION"
+backend_capacity_scaler = "1.0"
 
 #Database
+#user
+mysql_user_host = "%"
+mysql_user_name = ["root", "petclinic"]
+#db
 mysql_name              = "petclinic-test-1"
 mysql_tier              = "db-g1-small"
 mysql_region            = "us-central1"
+mysql_db_name           = "petclinic"
+mysql_charset           = "utf8"
+mysql_collation         = "utf8_general_ci"
 mysql_database_version  = "MYSQL_5_7"
 mysql_activation_policy = "ALWAYS"
 mysql_authorized_networks = [{
   name  = "All"
   value = "0.0.0.0/0"
 }]
-mysql_user_host     = "%"
-mysql_user_name     = ["root", "petclinic"]
-mysql_user_password = ["password", "petclinic"]
-mysql_charset       = "utf8"
-mysql_collation     = "utf8_general_ci"
-mysql_db_name       = "petclinic"

@@ -6,7 +6,6 @@ resource "google_secret_manager_secret" "secret" {
   replication {
     automatic = true
   }
-  # depends_on = [google_project_service.secretmanager]
 }
 
 resource "google_secret_manager_secret_version" "secret-version" {

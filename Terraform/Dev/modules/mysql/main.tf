@@ -10,7 +10,7 @@ locals {
 }
 
 resource "google_sql_database_instance" "mysql" {
-  # name             = "dz-${var.mysql_name}"
+  name             = "dz-${var.mysql_name}"
   database_version = var.mysql_database_version
   region           = var.mysql_region
 
@@ -40,21 +40,11 @@ resource "random_password" "mysql_root_password" {
 
 resource "google_sql_user" "root_user" {
   depends_on = [random_password.mysql_root_password[0]]
-  # count      = 1
-  # name       = element(var.mysql_user_name, count.index)
-  name     = var.mysql_user_name[0]
-  host     = var.mysql_user_host
-  instance = google_sql_database_instance.mysql.name
-  password = random_password.mysql_root_password[0].result #element(var.mysql_user_password, count.index)
+  name       = var.mysql_user_name[0]
+  host       = var.mysql_user_host
+  instance   = google_sql_database_instance.mysql.name
+  password   = random_password.mysql_root_password[0].result
 }
-
-# resource "google_sql_database" "database" {
-#   name      = var.mysql_db_name
-#   project   = var.project
-#   charset   = var.mysql_charset
-#   instance  = google_sql_database_instance.mysql.name
-#   collation = var.mysql_collation
-# }
 
 resource "mysql_database" "petclinic" {
   name                  = var.mysql_db_name
@@ -81,9 +71,9 @@ module "google_compute_instance_secret" {
   project = var.project
   secret_pair = {
     "mysql_ip_dz"         = google_sql_database_instance.mysql.public_ip_address
-    "mysql_root_name"     = google_sql_user.root_user.name                #var.mysql_user_name[0]
-    "mysql_root_password" = google_sql_user.root_user.password            #var.mysql_user_password[0]
-    "mysql_user_name"     = mysql_user.petclinic.user                     #var.mysql_user_name[1]
-    "mysql_user_password" = random_password.mysql_root_password[1].result #| base64 --decode | keybase pgp decrypt #var.mysql_user_password[1]
+    "mysql_root_name"     = google_sql_user.root_user.name #var.mysql_user_name[0]
+    "mysql_root_password" = google_sql_user.root_user.password
+    "mysql_user_name"     = mysql_user.petclinic.user #var.mysql_user_name[1]
+    "mysql_user_password" = random_password.mysql_root_password[1].result
   }
 }

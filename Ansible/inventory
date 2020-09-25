@@ -4,9 +4,6 @@ Jenkins2 ansible_host="{{ jenkins_url }}"
 [Nexus]
 Nexus3 ansible_host="{{ nexus_url }}"
 
-[Web]
-Server ansible_host="{{ petclinic_url }}"
-
 [All:children]
 Jenkins
 Nexus

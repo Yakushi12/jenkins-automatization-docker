@@ -2,7 +2,8 @@
   "variables": {
     "path": "",
     "commit_id": "",
-    "acc_key": ""
+    "acc_key": "",
+    "nexus_url" : ""
   },
 
   "builders": [

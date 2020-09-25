@@ -12,8 +12,7 @@ resource "github_repository_webhook" "foo" {
   events     = var.events
 
   configuration {
-    url = "${var.protocol}${var.jenkins_ip}:${var.jenkins_port}/${var.request}"
-    # var.url
+    url          = "${var.protocol}${var.jenkins_ip}:${var.jenkins_port}/${var.request}"
     content_type = "json"
     insecure_ssl = true
   }

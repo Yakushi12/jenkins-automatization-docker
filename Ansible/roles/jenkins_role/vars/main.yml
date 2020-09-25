@@ -5,6 +5,7 @@ docker_container_name             : jenkins
 # job - Build Jenkins job, file - 03.2-deploy-to-nexus-job.groovy.j2
 jobName                           : 'pack and deploy artefact'
 jenkins_token                     : 11517e4ae0308056e4ea15d6d179f0f7f9
+jenkins_port  : 8080
 # file - 00-basic-security.groovy.j2
 jenkins_user                      : jenkins
 jenkins_pass                      : pass

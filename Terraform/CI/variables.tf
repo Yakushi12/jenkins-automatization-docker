@@ -15,25 +15,26 @@ variable "zone" {
   description = "Default project zone"
   type        = string
 }
-variable "user" {
-  description = "User"
-  type        = string
-}
 
 #networking
 variable "fw_ports" {
   type = list
 }
-variable "networking_name" {
+variable "routing_mode" {
   type = string
 }
 variable "ip_cidr_range" {
   type = string
 }
-variable "vpc_description" {
+variable "fw_target_tags" {
+  description = "Tags to attach to the instance."
+  type        = list
+  default     = ["dz-fw-tcp"]
+}
+variable "networking_name" {
   type = string
 }
-variable "routing_mode" {
+variable "vpc_description" {
   type = string
 }
 
@@ -51,11 +52,7 @@ variable "template_service_account_scopes" {
   type        = list
   default     = ["userinfo-email", "compute-ro", "storage-ro"]
 }
-variable "fw_target_tags" {
-  description = "Tags to attach to the instance."
-  type        = list
-  default     = ["dz-fw-tcp"]
-}
+
 variable "template_machine_type" {
   description = "Tags to attach to the instance."
   type        = string

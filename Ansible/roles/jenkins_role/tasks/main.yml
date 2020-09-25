@@ -8,7 +8,7 @@
   - debug: msg="{{ hname.stdout }}"
     tags: always
 
-  - import_tasks: install_jenkins.yml
+  - import_tasks: firewall_conf.yml
     tags: jenkins-install
 
   - import_tasks: configure_jenkins.yml
