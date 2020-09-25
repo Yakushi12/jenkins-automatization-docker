@@ -1,0 +1,15 @@
+---
+
+  - name: Allow all access to tcp port 8080
+    firewalld:
+      port: 8080/tcp
+      permanent: yes
+      state: enabled
+      zone: public
+
+  - name: reload service firewalld
+    systemd:
+      name: firewalld
+      state: reloaded
+
+...
