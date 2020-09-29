@@ -2,10 +2,6 @@
 docker_volume                     : jenkins_home
 docker_image_name                 : jenkins-docker
 docker_container_name             : jenkins
-# job - Build Jenkins job, file - 03.2-deploy-to-nexus-job.groovy.j2
-jobName                           : 'pack and deploy artefact'
-jenkins_token                     : 11517e4ae0308056e4ea15d6d179f0f7f9
-jenkins_port  : 8080
 # file - 00-basic-security.groovy.j2
 jenkins_user                      : jenkins
 jenkins_pass                      : pass
@@ -29,15 +25,12 @@ valut_pass_id                     : 'pass'
 valut_pass_description            : 'password for ansible vault'
 valut_pass_name                   : 'pass'
 valut_pass                        : "{{ lookup('file', '/Users/dzakharchenko/vpass') }}"
+# files 03-*, task - build_job.yml
+branch                            : '*/main'
+jobName                           : 'pack and deploy artefact'
+jenkins_token                     : 11517e4ae0308056e4ea15d6d179f0f7f9
+jenkins_port                      : 8080
+git_pipelines_url                 : git@github.com:Yakushi12/jenkins-pipelines.git
 # file - 04-maven.groovy.j2
 mavenVersion                      : 3.6.3
 mavenName                         : Maven
-# files - Jenkinsfiles
-nexus_ip_secret                   : "nexus_ip_dz"
-gitCIurl                          : git@github.com:Yakushi12/jenkins-automatization-docker.git
-gitUrl                            : git@github.com:Yakushi12/spring-petclinic.git
-branch                            : '*/main'
-targetBranch                      : fix
-targetBranch1                     : main
-service_acc_key                   : service_acc_key
-jenkins_home                      : /var/lib/jenkins

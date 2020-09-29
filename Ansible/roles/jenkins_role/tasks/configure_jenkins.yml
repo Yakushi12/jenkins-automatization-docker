@@ -21,13 +21,10 @@
       - { src: '00-basic-security.groovy.j2', dest: './Docker/scripts/00-basic-security.groovy' }
       - { src: '01-global-settings.groovy.j2', dest: './Docker/scripts/01-global-settings.groovy' }
       - { src: '02-add-credentials.groovy.j2', dest: './Docker/scripts/02-add-credentials.groovy' }
-      - { src: '03.1-packer-build-job.groovy.j2', dest: './Docker/scripts/03.1-packer-build-job.groovy' }
-      - { src: '03.2-deploy-to-nexus-job.groovy.j2', dest: './Docker/scripts/03.2-deploy-to-nexus-job.groovy' }
-      - { src: '04-maven.groovy.j2', dest: './Docker/scripts/04-maven.groovy' }
-      - { src: 'Jenkinsfile-03.1.j2', dest: './Docker/scripts/Jenkinsfile-03.1' }
-      - { src: 'Jenkinsfile-03.2.j2', dest: './Docker/scripts/Jenkinsfile-03.2' }
-      - { src: 'Jenkinsfile-03.3.j2', dest: './Docker/scripts/Jenkinsfile-03.3' }
+      - { src: '03.1-pack-and-deploy.groovy.j2', dest: './Docker/scripts/03.1-pack-and-deploy.groovy' }
+      - { src: '03.2-packer-build-job.groovy.j2', dest: './Docker/scripts/03.2-packer-build-job.groovy' }
       - { src: '03.3-terraform-job.groovy.j2', dest: './Docker/scripts/03.3-terraform-job.groovy' }
+      - { src: '04-maven.groovy.j2', dest: './Docker/scripts/04-maven.groovy' }
 
   - name: Build docker image and Run docker container
     shell: |

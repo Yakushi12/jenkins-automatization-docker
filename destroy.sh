@@ -8,3 +8,4 @@ terraform init
 terraform destroy -auto-approve
 cd $workdir/Terraform/CI
 terraform destroy -auto-approve
+gcloud compute images list --filter="family=petclinic" --format="value(name)" | xargs gcloud compute images delete

@@ -6,26 +6,38 @@ import jenkins.model.Jenkins
 import javaposse.jobdsl.dsl.DslFactory.*
 
 def jobDSL="""
-pipelineJob('packer_build') {
+pipelineJob('pack and deploy artefact') {
+  logRotator(7, -1, -1, -1)
+  authenticationToken('{{ jenkins_token }}')
   definition {
-    cps {
-      script(readFileFromWorkspace('/usr/share/jenkins/ref/init.groovy.d/Jenkinsfile-03.1'))
-      sandbox(true)
-    }
-  }
-  parameters {
-    stringParam('GIT_COMMIT', '', '')
+    cpsScm {
+      scm {
+        git {
+          remote {
+            url('{{ git_pipelines_url }}')
+            credentials('{{ credentials }}')
+          }
+       branch('{{ branch }}')
+       }
+       scriptPath('Jenkinsfile-pack_deploy_artefact')
+     }
+    lightweight()
+   }
   }
 }
 """;
+
 def jobManagement = new JenkinsJobManagement(System.out, [:], new File('.'))
 new DslScriptLoader(jobManagement).runScript(jobDSL)
 def scriptApproval = org.jenkinsci.plugins.scriptsecurity.scripts.ScriptApproval.get()
+
 String[] signs = [
     "method org.jenkinsci.plugins.workflow.steps.FlowInterruptedException getCauses",
     "method org.jenkinsci.plugins.workflow.support.steps.input.Rejection getUser"
     ]
+
 for( String sign : signs ) {
     scriptApproval.approveSignature(sign)
 }
+
 scriptApproval.save()

@@ -61,8 +61,8 @@ resource "google_compute_instance_group_manager" "instance_group_manager" {
     type                  = "PROACTIVE"
     minimal_action        = "REPLACE"
     max_surge_percent     = 20
-    max_unavailable_fixed = 2
-    min_ready_sec         = 50
+    max_unavailable_fixed = 1
+    min_ready_sec         = 20
   }
 }
 
@@ -73,7 +73,7 @@ resource "google_compute_autoscaler" "dz-autoscaler" {
   target = google_compute_instance_group_manager.instance_group_manager.id
 
   autoscaling_policy {
-    max_replicas    = 3
+    max_replicas    = 4
     min_replicas    = 1
     cooldown_period = 30
     cpu_utilization {

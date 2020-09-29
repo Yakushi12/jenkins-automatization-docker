@@ -12,7 +12,7 @@ health_check_name               = "petclinic"
 health_check_port               = "80"
 google_compute_name             = "dz"
 template_subnetwork             = "intern-infra-subnet"
-template_machine_type           = "n1-standard-1"
+template_machine_type           = "g1-small"
 health_check_interval_sec       = "30"
 template_service_account_scopes = ["userinfo-email", "compute-ro", "storage-ro", "cloud-platform"]
 
