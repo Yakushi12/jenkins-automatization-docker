@@ -3,8 +3,8 @@
 SECONDS=0
 set -o errexit
 set -o nounset
-set -o xtrace
 set -o pipefail
+set -o xtrace
 
 workdir=$(pwd)
 key_path="${HOME}/.ssh"
@@ -20,38 +20,22 @@ packer build -var 'path=/Users/dzakharchenko/vpass' -var "acc_key=${HOME}/.ssh/a
 
 cd ${workdir}/Terraform/CI
 terraform init
+terraform plan
 terraform apply -auto-approve
 jenkins_ip=$(terraform output -json jenkins_ip | jq --raw-output "")
 nexus_ip=$(terraform output -json nexus_ip | jq --raw-output "")
+
 # If necessary you can uncomment below comands for writting IP's to the Ansible global var file.
 #sed -i '' "s/nexus_url.*/nexus_url     : ${nexus_ip}/" ${workdir}/Ansible/group_vars/All.yml
 #sed -i '' "s/jenkins_url.*/jenkins_url   : ${jenkins_ip}/" ${workdir}/Ansible/group_vars/All.yml
 
-# nc -z option means just scan for listening daemons, without sending any data to them.
-until $(nc -z ${nexus_ip} 22 &> /dev/null); do
-  printf '.'
-  sleep 3
-done
-
 cd ${workdir}/Ansible/
 ansible-playbook playbooks/nexus_playbook.yml --vault-password-file="/Users/dzakharchenko/vpass" --tags="nexus-configure" --extra-vars "nexus_url=${nexus_ip}"
-
-while [ $(curl --silent --write-out "%{http_code}" http://${nexus_ip}:8081 --output /dev/null) != "200" ]
-do
-  printf '.'
-  sleep 3
-done
-
 ansible-playbook playbooks/jenkins_playbook.yml --vault-password-file="/Users/dzakharchenko/vpass" --tags="jenkins-configure" --extra-vars "jenkins_url=${jenkins_ip}"
-
-while [ $(curl --silent --write-out "%{http_code}" http://${jenkins_ip}:8080 --output /dev/null) != "403" ]
-do
-  printf '.'
-  sleep 3
-done
 
 cd ${workdir}/Terraform/GitHub
 terraform init
+terraform plan -var "jenkins_ip=${jenkins_ip}"
 terraform apply -var "jenkins_ip=${jenkins_ip}" -auto-approve
 
 duration=${SECONDS}

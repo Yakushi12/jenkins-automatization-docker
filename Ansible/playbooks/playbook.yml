@@ -4,11 +4,11 @@
   gather_facts: no
   tasks:
 
-    # - name: Find out playbooks path
-    #   shell: echo "{{ lookup('env', 'PWD') }}"
-    #   register: path
-    #
-    # - debug: msg="{{ path.stdout }}"
+    - name: Find out playbooks path
+      shell: echo "{{ lookup('env', 'PWD') }}"
+      register: path
+
+    - debug: msg="{{ path.stdout }}"
     #
     # - name: Generate ssh key pair
     #   openssh_keypair:

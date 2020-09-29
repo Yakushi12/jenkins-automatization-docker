@@ -1,5 +1,12 @@
 ---
 
+  - name: wait for file
+    wait_for:
+      path: /usr/local/sonatype-work/nexus3/admin.password
+      state: present
+      sleep: 4
+    ignore_errors: True
+
   - stat: path=/usr/local/sonatype-work/nexus3/admin.password
     register: passwordpath
 

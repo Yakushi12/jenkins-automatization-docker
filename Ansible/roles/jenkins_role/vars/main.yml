@@ -4,7 +4,13 @@ docker_image_name                 : jenkins-docker
 docker_container_name             : jenkins
 # file - 00-basic-security.groovy.j2
 jenkins_user                      : jenkins
-jenkins_pass                      : pass
+jenkins_pass                      : !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          39633439313661333630656133636466666362393463396633616430666534623134376136653364
+          3334623639326432623064666237396533363631626262330a663730373035636634633539343861
+          32353863646463653138396235333334323031373230346264376636613462386535643762323230
+          6234663165616430330a653736643764616263343330653136313162643535333138396366376461
+          6534
 jenkins_fullName                  : Jenkins_Admin
 public_key                        : "{{ lookup('file', '/Users/dzakharchenko/.ssh/github.pub') }}"
 # file - 01-global-settings.groovy.j2

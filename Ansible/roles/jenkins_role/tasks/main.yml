@@ -14,4 +14,7 @@
   - import_tasks: configure_jenkins.yml
     tags: jenkins-configure
 
+  - import_tasks: check_jenkins.yml
+    tags: jenkins-configure
+
 ...
