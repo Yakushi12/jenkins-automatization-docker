@@ -1,5 +1,5 @@
 #GitHub
-token           = "/Users/dzakharchenko/WhoAmI/gcp/GH_key"
+token           = ""
 repository_name = "Yakushi12/spring-petclinic"
 events          = ["push"]
 protocol        = "http://"

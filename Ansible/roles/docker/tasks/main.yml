@@ -3,7 +3,7 @@
   - name: Check Hostname
     command: hostname
     register: hname
-    
+
   - debug: msg="{{ hname.stdout }}"
 
   - name: yum Update
@@ -43,7 +43,7 @@
 
   - name: Add user to docker group
     user:
-      name: '{{ user }}'
+      name: "{{ ansible_user }}"
       groups: docker
       append: true
 

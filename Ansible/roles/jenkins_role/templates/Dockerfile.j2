@@ -12,8 +12,10 @@ RUN while read i ; \
       do /usr/local/bin/install-plugins.sh $i ; \
     done < /usr/share/jenkins/jenkins-plugins
 
+# provide groovy init hooks to container
 COPY ./scripts/. /usr/share/jenkins/ref/init.groovy.d/
 
+# install tools
 RUN yum -y update && yum -y install \
     wget \
     unzip \
@@ -21,22 +23,26 @@ RUN yum -y update && yum -y install \
     python-pip \
     ansible
 
+# install terraform
 RUN wget --quiet https://releases.hashicorp.com/terraform/0.13.2/terraform_0.13.2_linux_amd64.zip \
   && unzip terraform_0.13.2_linux_amd64.zip -d /usr/local/bin \
   && rm terraform_0.13.2_linux_amd64.zip
 
+# install packer
 RUN wget https://releases.hashicorp.com/packer/1.6.1/packer_1.6.1_linux_amd64.zip \
   && unzip packer_1.6.1_linux_amd64.zip -d /usr/local/bin \
   && rm packer_1.6.1_linux_amd64.zip
 
+# install gcloud
 RUN curl https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.tar.gz > /tmp/google-cloud-sdk.tar.gz \
   && mkdir -p /usr/local/gcloud \
   && tar -C /usr/local/gcloud -xvf /tmp/google-cloud-sdk.tar.gz \
   && /usr/local/gcloud/google-cloud-sdk/install.sh
 
+# install ansible
 RUN yum -y install ansible
 
 ENV PATH=$PATH:/usr/local/bin/packer
-ENV PATH $PATH:/usr/local/gcloud/google-cloud-sdk/bin
+ENV PATH=$PATH:/usr/local/gcloud/google-cloud-sdk/bin
 
 VOLUME /var/{{ docker_volume }}

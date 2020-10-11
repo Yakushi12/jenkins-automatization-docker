@@ -12,14 +12,14 @@ jenkins_pass                      : !vault |
           6234663165616430330a653736643764616263343330653136313162643535333138396366376461
           6534
 jenkins_fullName                  : Jenkins_Admin
-public_key                        : "{{ lookup('file', '/Users/dzakharchenko/.ssh/github.pub') }}"
+public_key                        : "{{ lookup('file', '{{ key_path }}/github.pub') }}"
 # file - 01-global-settings.groovy.j2
 gitName                           : jenkins
 gitEmail                          : jenkins@example.com
 # file - 02-add-credentials.groovy.j2
 credentials                       : GH_private_key
 jenkinsSSHcredentials_description : 'private key for GitHub'
-private_key                       : "{{ lookup('file', '/Users/dzakharchenko/.ssh/github') }}"
+private_key                       : "{{ lookup('file', '{{ key_path }}/github') }}"
 jenkinsKey_id                     : nexus-cred
 jenkinsKey_description            : 'Login to Nexus3 OSS'
 jenkinsKey_user                   : admin
@@ -30,7 +30,7 @@ jenkinsFile_name                  : 'account.json'
 valut_pass_id                     : 'pass'
 valut_pass_description            : 'password for ansible vault'
 valut_pass_name                   : 'pass'
-valut_pass                        : "{{ lookup('file', '/Users/dzakharchenko/vpass') }}"
+valut_pass                        : "{{ lookup('file', '{{ key_path }}/vault_password') }}"
 # files 03-*, task - build_job.yml
 branch                            : '*/main'
 jobName                           : 'pack and deploy artefact'

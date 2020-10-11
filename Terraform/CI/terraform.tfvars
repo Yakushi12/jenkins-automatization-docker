@@ -1,6 +1,6 @@
 #project
 project          = "gd-gcp-internship-kha-koh"
-credentials_file = "~/.ssh/account.json"
+credentials_file = ""
 region           = "us-central1"
 zone             = "us-central1-c"
 
