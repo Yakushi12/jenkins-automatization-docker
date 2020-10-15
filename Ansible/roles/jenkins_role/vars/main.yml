@@ -23,7 +23,13 @@ private_key                       : "{{ lookup('file', '{{ key_path }}/github') 
 jenkinsKey_id                     : nexus-cred
 jenkinsKey_description            : 'Login to Nexus3 OSS'
 jenkinsKey_user                   : admin
-jenkinsKey_pass                   : password
+jenkinsKey_pass                   : !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          33396665366530346631343939313662383138333532356539363437613064316332373864346438
+          3039356238373530376231313064373230343437306235620a346530636437353633306632316632
+          65363237356439643466313034313730333635376133353534363638363664393365313033306363
+          6664393063663535360a306230343436383238383232656330386164613536336438393162623564
+          3239
 jenkinsFile_id                    : 'gcp_service_acc_cred'
 jenkinsFile_description           : 'Service account json Key'
 jenkinsFile_name                  : 'account.json'

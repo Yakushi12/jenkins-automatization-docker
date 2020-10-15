@@ -7,7 +7,6 @@
     - { role: nexus_role }
 
 - hosts: localhost
-  become: true
   gather_facts: no
   tags: nexus-configure
   tasks:

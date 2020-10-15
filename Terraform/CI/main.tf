@@ -10,7 +10,7 @@ module "secret_manager" {
   source = "./modules/secret_manager"
 
   project     = var.project
-  secret_pair = merge(var.secret_pair, { "service_acc_key" = file(var.credentials_file) })
+  secret_pair = { "service_acc_key" = file(var.credentials_file) }
 }
 
 #-------Create Networking-------#

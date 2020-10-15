@@ -11,6 +11,6 @@ terraform {
   backend "gcs" {
     bucket      = "dz-tf-backup"
     prefix      = "terraform/GH"
-    credentials = "/Users/dzakharchenko/WhoAmI/gcp/service_acc_key.json"
+    credentials = "/Users/dzakharchenko/WhoAmI/Study/GIT/Repos/jenkins-automatization-docker-files/account.json"
   }
 }

@@ -4,11 +4,6 @@ credentials_file = ""
 region           = "us-central1"
 zone             = "us-central1-c"
 
-#secret_manager
-secret_pair = {
-  "mysql_pass_dz" = "petpass"
-}
-
 #networking
 fw_ports        = ["22", "80", "8080-8081"]
 routing_mode    = "REGIONAL"
