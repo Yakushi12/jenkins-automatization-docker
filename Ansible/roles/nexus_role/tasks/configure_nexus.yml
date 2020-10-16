@@ -22,8 +22,8 @@
 
       - name: updating admin password
         uri:
-          url: "http://{{ nexus_url }}:8081/service/rest/beta/security/users/admin/change-password"
-          user: "admin"
+          url: "http://{{ nexus_url }}:{{ nexus_port }}/service/rest/beta/security/users/admin/change-password"
+          user: "{{ admin_username }}"
           password: "{{ password.stdout }}"
           headers:
             Content-Type: "text/plain"
@@ -35,8 +35,8 @@
 
   - name: disabling anonymous access
     uri:
-      url: "http://{{ nexus_url }}:8081/service/rest/beta/security/anonymous"
-      user: "admin"
+      url: "http://{{ nexus_url }}:{{ nexus_port }}/service/rest/beta/security/anonymous"
+      user: "{{ admin_username }}"
       password: "{{ admin_password }}"
       body_format: json
       headers:

@@ -1,21 +1,33 @@
 ---
+
 - hosts: localhost
   connection: local
   gather_facts: no
   tasks:
 
-    # - name: Find out playbooks path
-    #   shell: echo "{{ lookup('env', 'PWD') }}"
-    #   register: path
-    #
-    # - debug: msg="{{ path.stdout }}"
+    - name: Find out playbooks path
+      shell: echo "{{ lookup('env', 'PWD') }}"
+      register: path
 
-    - name: Generate ssh key pair
-      openssh_keypair:
-        path: "{{ key_path }}/{{ ssh_key }}"
-        type: rsa
-        size: 2048
+    - name: kek
+      shell: "cd {{ path.stdout }} && cd ../../jenkins-automatization-docker-files && echo $(pwd)"
+      register: path2
+
+    - debug: msg="{{ path.stdout }}"
+    - debug: msg="{{ path2.stdout }}"
+
+    - lineinfile:
+        path: "{{ path.stdout }}/group_vars/All.yml"
         state: present
-        force: yes
+        regexp: '^key_path'
+        line: 'key_path : {{ path2.stdout }}'
+
+    # - name: Generate ssh key pair
+    #   openssh_keypair:
+    #     path: "{{ key_path }}/{{ ssh_key }}"
+    #     type: rsa
+    #     size: 2048
+    #     state: present
+    #     force: yes
 
 ...

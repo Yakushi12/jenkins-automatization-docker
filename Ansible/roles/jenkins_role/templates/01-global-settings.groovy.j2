@@ -9,15 +9,15 @@ import com.cloudbees.plugins.credentials.*
 def instance = Jenkins.getInstance()
 
 println("--- Configuring global getting")
-instance.setNumExecutors(3)
+instance.setNumExecutors({{NumExecutors}})
 instance.setCrumbIssuer(new DefaultCrumbIssuer(true))
 instance.setNoUsageStatistics(true)
 instance.save()
 
 println("--- Configuring git global options")
 def desc = instance.getDescriptor("hudson.plugins.git.GitSCM")
-desc.setGlobalConfigName("{{ gitName }}")
-desc.setGlobalConfigEmail("{{ gitEmail }}")
+desc.setGlobalConfigName("{{ git_config_Name }}")
+desc.setGlobalConfigEmail("{{ git_config_Email }}")
 desc.save()
 
 println("--- Configuring protocols")

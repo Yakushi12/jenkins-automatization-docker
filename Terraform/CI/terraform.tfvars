@@ -1,6 +1,6 @@
 #project
 project          = "gd-gcp-internship-kha-koh"
-credentials_file = ""
+credentials_file = "../../../jenkins-automatization-docker-files/account.json"
 region           = "us-central1"
 zone             = "us-central1-c"
 

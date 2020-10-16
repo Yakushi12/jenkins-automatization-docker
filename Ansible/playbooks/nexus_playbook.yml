@@ -3,6 +3,8 @@
 - hosts: default
   become: true
   gather_facts: no
+  vars_files:
+    - ../vars/vars.yml
   roles:
     - { role: nexus_role }
 
@@ -22,6 +24,8 @@
 - hosts: Nexus
   become: true
   gather_facts: no
+  vars_files:
+    - ../vars/vars.yml
   roles:
     - { role: nexus_role }
 

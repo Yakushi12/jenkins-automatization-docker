@@ -11,12 +11,12 @@
 
   - name: Downoload packages
     yum:
-      name: ['yum-utils', 'device-mapper-persistent-data', 'lvm2', 'python2', 'python-pip', 'unzip']
+      name: "{{ packages }}"
       state: latest
 
   - name: Configuring docker-ce repo
     get_url:
-      url: https://download.docker.com/linux/centos/docker-ce.repo
+      url: "{{ docker_ce_url }}"
       dest: /etc/yum.repos.d/docker-ce.repo
       mode: 0644
 

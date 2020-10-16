@@ -1,8 +1,8 @@
 ---
 
-  - name: Allow all access to tcp port 8080
+  - name: "Allow all access to tcp port {{ jenkins_port }}"
     firewalld:
-      port: 8080/tcp
+      port: "{{ jenkins_port }}/tcp"
       permanent: yes
       state: enabled
       zone: public

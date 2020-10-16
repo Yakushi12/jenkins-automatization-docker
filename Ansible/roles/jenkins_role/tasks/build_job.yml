@@ -2,7 +2,7 @@
 
   - name: Build Jenkins job
     uri:
-      url: "http://{{ jenkins_url }}:{{ jenkins_port }}/buildByToken/build?job={{ jobName }}&token={{ jenkins_token }}"
+      url: "http://{{ jenkins_url }}:{{ jenkins_port }}/buildByToken/build?job=pack%20and%20deploy%20artefact&token=11517e4ae0308056e4ea15d6d179f0f7f9"
       method: POST
       force_basic_auth: yes
       status_code: 201

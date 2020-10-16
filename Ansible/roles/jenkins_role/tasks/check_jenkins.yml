@@ -2,14 +2,14 @@
 
   - name: Check that Jenkins is ready
     uri:
-      url: http://{{ jenkins_url }}:8080
-      user: "{{ jenkins_user }}"
-      password: "{{ jenkins_pass }}"
-      method: GET
-      force_basic_auth: yes
-      return_content: yes
+      url: "http://{{ jenkins_url }}:{{ jenkins_port }}"
+      user: "{{ admin_username }}"
+      password: "{{ admin_password }}"
+      method: "GET"
+      force_basic_auth: "yes"
+      return_content: "yes"
       status_code: ['200', '403']
-    register: this
+    register: "this"
     until: "'Dashboard' in this.content"
     retries: 15
     delay: 5

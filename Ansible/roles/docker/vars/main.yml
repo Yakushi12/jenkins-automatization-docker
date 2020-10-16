@@ -1,1 +1,2 @@
-user : dzakharchenko
+packages : ['yum-utils', 'device-mapper-persistent-data', 'lvm2', 'python2', 'python-pip', 'unzip']
+docker_ce_url : https://download.docker.com/linux/centos/docker-ce.repo

@@ -14,7 +14,7 @@ pipelineJob('terraform_build_DEV') {
         git {
           remote {
             url('{{ git_pipelines_url }}')
-            credentials('{{ credentials }}')
+            credentials('{{ github_ssh_credentials }}')
           }
        branch('{{ branch }}')
        }

@@ -3,45 +3,21 @@ docker_volume                     : jenkins_home
 docker_image_name                 : jenkins-docker
 docker_container_name             : jenkins
 # file - 00-basic-security.groovy.j2
-jenkins_user                      : jenkins
-jenkins_pass                      : !vault |
-          $ANSIBLE_VAULT;1.1;AES256
-          39633439313661333630656133636466666362393463396633616430666534623134376136653364
-          3334623639326432623064666237396533363631626262330a663730373035636634633539343861
-          32353863646463653138396235333334323031373230346264376636613462386535643762323230
-          6234663165616430330a653736643764616263343330653136313162643535333138396366376461
-          6534
 jenkins_fullName                  : Jenkins_Admin
-public_key                        : "{{ lookup('file', '{{ key_path }}/github.pub') }}"
 # file - 01-global-settings.groovy.j2
-gitName                           : jenkins
-gitEmail                          : jenkins@example.com
+git_config_Name                   : jenkins
+git_config_Email                  : jenkins@example.com
+NumExecutors                      : 3
 # file - 02-add-credentials.groovy.j2
-credentials                       : GH_private_key
-jenkinsSSHcredentials_description : 'private key for GitHub'
-private_key                       : "{{ lookup('file', '{{ key_path }}/github') }}"
-jenkinsKey_id                     : nexus-cred
-jenkinsKey_description            : 'Login to Nexus3 OSS'
-jenkinsKey_user                   : admin
-jenkinsKey_pass                   : !vault |
-          $ANSIBLE_VAULT;1.1;AES256
-          33396665366530346631343939313662383138333532356539363437613064316332373864346438
-          3039356238373530376231313064373230343437306235620a346530636437353633306632316632
-          65363237356439643466313034313730333635376133353534363638363664393365313033306363
-          6664393063663535360a306230343436383238383232656330386164613536336438393162623564
-          3239
-jenkinsFile_id                    : 'gcp_service_acc_cred'
-jenkinsFile_description           : 'Service account json Key'
-jenkinsFile_name                  : 'account.json'
-valut_pass_id                     : 'pass'
-valut_pass_description            : 'password for ansible vault'
-valut_pass_name                   : 'pass'
-valut_pass                        : "{{ lookup('file', '{{ key_path }}/vault_password') }}"
-# files 03-*, task - build_job.yml
+github_ssh_credentials            : GH_private_key
+github_ssh_cred_description       : 'private key for GitHub'
+Nexus_login_creds_id              : nexus-cred
+Nexus_login_creds_description     : 'Login to Nexus3 OSS'
+ansible_valut_pass_id             : 'pass'
+ansible_valut_pass_description    : 'password for ansible vault'
+ansible_valut_pass_name           : 'pass'
+# files 03-*
 branch                            : '*/main'
-jobName                           : 'pack and deploy artefact'
-jenkins_token                     : 11517e4ae0308056e4ea15d6d179f0f7f9
-jenkins_port                      : 8080
 git_pipelines_url                 : git@github.com:Yakushi12/jenkins-pipelines.git
 # file - 04-maven.groovy.j2
 mavenVersion                      : 3.6.3

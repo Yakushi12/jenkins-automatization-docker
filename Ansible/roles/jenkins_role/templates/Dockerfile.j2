@@ -1,8 +1,8 @@
 FROM jenkins/jenkins:2.235.2-lts-centos7
 USER root
 
-ENV JENKINS_USER {{ jenkins_user }}
-ENV JENKINS_PASS {{ jenkins_pass }}
+ENV JENKINS_USER {{ admin_username }}
+ENV JENKINS_PASS {{ admin_password }}
 ENV JAVA_OPTS -Djenkins.install.runSetupWizard=false
 
 # install jenkins plugins

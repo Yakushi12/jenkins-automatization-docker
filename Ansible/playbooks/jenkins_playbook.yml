@@ -3,6 +3,8 @@
 - hosts: default
   become: true
   gather_facts: no
+  vars_files:
+    - ../vars/vars.yml
   roles:
     - { role: docker, tags: jenkins-install }
     - { role: jenkins_role }
@@ -10,7 +12,29 @@
 - hosts: Jenkins
   become: true
   gather_facts: no
+  vars_files:
+    - ../vars/vars.yml
   roles:
     - { role: jenkins_role }
+
+- hosts: localhost
+  gather_facts: no
+  tags: jenkins-configure
+  vars_files:
+    - ../vars/vars.yml
+  tasks:
+    - name: Check Jenkins
+      uri:
+        url: "http://{{ jenkins_url }}:{{ jenkins_port }}"
+        user: "{{ admin_username }}"
+        password: "{{ admin_password }}"
+        method: "GET"
+        force_basic_auth: "yes"
+        return_content: "yes"
+        status_code: ["200", "403"]
+      register: "this"
+      until: "'Dashboard' in this.content"
+      retries: 15
+      delay: 5
 
 ...
