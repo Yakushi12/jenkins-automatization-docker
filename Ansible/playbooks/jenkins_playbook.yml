@@ -23,7 +23,7 @@
   vars_files:
     - ../vars/vars.yml
   tasks:
-    - name: Check Jenkins
+    - name: Check that Jenkins is ready
       uri:
         url: "http://{{ jenkins_url }}:{{ jenkins_port }}"
         user: "{{ admin_username }}"
