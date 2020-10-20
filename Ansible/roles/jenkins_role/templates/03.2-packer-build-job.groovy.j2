@@ -9,7 +9,7 @@ def jobDSL="""
 pipelineJob('packer_build') {
   logRotator(7, -1, -1, -1)
   parameters {
-    stringParam('GIT_COMMIT', '', '')
+    stringParam('GIT_PETCLINIC_COMMIT', '', '')
   }
   definition {
     cpsScm {

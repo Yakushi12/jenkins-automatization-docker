@@ -44,7 +44,7 @@ resource "google_compute_instance_group_manager" "instance_group_manager" {
   zone               = var.zone
   name               = "${var.google_compute_name}-scalable-petclinic"
   base_instance_name = "${var.google_compute_name}-pet"
-  target_size        = "2"
+  target_size        = "1"
   version {
     instance_template = google_compute_instance_template.default.id
     name              = "${var.google_compute_name}-centos7"
@@ -74,7 +74,7 @@ resource "google_compute_autoscaler" "dz-autoscaler" {
 
   autoscaling_policy {
     max_replicas    = 4
-    min_replicas    = 1
+    min_replicas    = 2
     cooldown_period = 30
     cpu_utilization {
       target = 0.75
