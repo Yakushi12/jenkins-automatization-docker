@@ -1,10 +1,10 @@
 [Unit]
 Description=Spring Petclinic App
 After=syslog.target
-After=network.target[Service]
+After=network.target
+[Service]
 User={{ petclinic_user }}
 Type=simple
-[Service]
 ExecStart=/usr/bin/env bash /home/{{ petclinic_user }}/start_petclinic.sh
 Restart=always
 StandardOutput=syslog

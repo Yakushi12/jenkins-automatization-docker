@@ -14,11 +14,11 @@
       "image_name"           : "petclinic-centos7-{{user `commit_id`}}",
       "image_family"         : "petclinic-intern-website",
       "zone"                 : "us-central1-a",
-      "subnetwork"           : "projects/gd-gcp-internship-kha-koh/regions/us-central1/subnetworks/dzakharchenko-subnet",
+      "subnetwork"           : "projects/gd-gcp-internship-kha-koh/regions/us-central1/subnetworks/default",
       "source_image_family"  : "centos-7",
       "disk_size"            : "20",
       "machine_type"         : "g1-small",
-      "tags"                 : ["dz-fw-tcp"],
+      "tags"                 : ["default-firewall"],
       "ssh_username"         : "dzakharchenko"
     }
   ],
