@@ -31,6 +31,7 @@
     template:
       src: "{{ item.src }}"
       dest: "{{ item.dest }}"
+      mode: "644"
     with_items:
       - { src: 'petclinic.service.j2', dest: '/etc/systemd/system/petclinic.service' }
       - { src: 'start_petclinic.sh.j2', dest: '/home/{{ petclinic_user }}/start_petclinic.sh' }

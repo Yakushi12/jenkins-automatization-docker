@@ -12,9 +12,9 @@ bucket_name="tf-backup"
 commit_id=$(echo $(git log --pretty="%h" -1))
 
 # Creating bucket for terraform state files.
-gsutil mb -p gd-gcp-internship-kha-koh -c STANDARD -l US gs://${bucket_name}
+# gsutil mb -p gd-gcp-internship-kha-koh -c STANDARD -l US gs://${bucket_name}
 # Creating Service Accoint Key for managing GCP.
-gcloud iam service-accounts keys create "${key_path}/account.json" --iam-account 442661604643-compute@developer.gserviceaccount.com
+# gcloud iam service-accounts keys create "${key_path}/account.json" --iam-account 442661604643-compute@developer.gserviceaccount.com
 
 # Creating VM's images.
 cd ${workdir}/Ansible

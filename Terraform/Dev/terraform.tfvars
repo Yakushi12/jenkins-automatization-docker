@@ -27,7 +27,7 @@ backend_capacity_scaler = "1.0"
 mysql_user_host = "%"
 mysql_user_name = ["root", "petclinic"]
 #db
-mysql_name              = "petclinic-test"
+mysql_name              = "petclinic-demo"
 mysql_tier              = "db-g1-small"
 mysql_region            = "us-central1"
 mysql_db_name           = "petclinic"
